@@ -1,14 +1,17 @@
 <resources>
-    <string name="app_name">Presensi</string>
+    <string name="app_name">Presensi Javan</string>
 
-    <string name="title_section1">Home</string>
-    <string name="title_section2">List</string>
-    <string name="title_section3">Account</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_example">Example action</string>
-
+    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="refresh">Refresh</string>
+
+
+    <string name="is_kerja">Masuk</string>
+    <string name="is_pulang">Pulang</string>
+    <string name="is_jam_kerja_cukup">Jam Kerja Cukup</string>
+    <string name="is_terlambat">Datang Terlambat</string>
+    <string name="is_pulang_cepat">Pulang Cepat</string>
+
+
+
 </resources>
