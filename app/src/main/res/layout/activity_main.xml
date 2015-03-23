@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="593dp">
+
+            <LinearLayout
+                android:id="@+id/refresh_status"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="53dp"
+                    android:layout_height="53dp"
+                    android:background="@drawable/ic_action_update"
+                    android:id="@+id/imageView"
+                    android:layout_gravity="center_vertical|left" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/loading"
+                    android:id="@+id/textView"
+                    android:layout_weight="0.09"
+                    android:layout_gravity="center_vertical|left" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/search_bar"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="37dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Medium Text"
+                    android:id="@+id/textView2"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical|left" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/editText" />
+
+            </LinearLayout>
+
+
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/listView" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>
