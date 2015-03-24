@@ -1,5 +1,6 @@
 package mobile.javan.co.id.presensi;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,7 +11,7 @@ import mobile.javan.co.id.presensi.R;
 /**
  * Created by Purwa on 22/03/2015.
  */
-public class PresensiListActivity extends ActionBarActivity implements ListView.OnItemClickListener {
+public class PresensiListActivity extends Activity implements ListView.OnItemClickListener {
 
 
     public PresensiListActivity() {
