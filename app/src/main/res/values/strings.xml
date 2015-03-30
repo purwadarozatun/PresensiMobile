@@ -13,6 +13,70 @@
     <string name="is_terlambat">Datang Terlambat</string>
     <string name="is_pulang_cepat">Pulang Cepat</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_watch">Watch</string>
+
+
+    <string name="crash_notif_ticker_text">GO Flashlight unexpected error, send an error report…</string>
+    <string name="crash_notif_title">GO Flashlight Unexpected error…</string>
+    <string name="crash_notif_text">Please select this to help us fix the problem</string>
+    <string name="crash_dialog_title">GO Flashlight error report</string>
+    <string name="crash_dialog_text">An unexpected error caused the program to stop .We need your feedback to help us fix the problem. Please be assured that we only collect error information ,not personal information .</string>
+    <string name="crash_yes">Send Email</string>
+    <string name="crash_no">Cancel</string>
+    <string name="crash_subject">Error</string>
+    <string name="curVersion">2.0</string>
+    <string name="widget_title">OK Timer</string>
+    <string name="widget_icon">ic_launcher</string>
+    <string name="app_channel">200</string>
+    <string name="widget_label_1x1">OK Timer</string>
+    <string name="content_description">content description</string>
+    <string name="time_unit_hour">H</string>
+    <string name="time_unit_minute">M</string>
+    <string name="time_unit_second">S</string>
+    <string name="ctrl_start">Start</string>
+    <string name="ctrl_stop">Stop</string>
+    <string name="ctrl_addtime">+15s</string>
+    <string name="ctrl_ok">OK</string>
+    <string name="ctrl_cancel">Cancel</string>
+    <string name="notify_stop">STOP</string>
+    <string name="notify_time_out">Time is over!</string>
+    <string name="notify_time_out_nearly">Less than one minute remaining!</string>
+    <string name="notify_time_remain_format" formatted="false">%1$dH%2$dM remaining</string>
+    <string name="pref_title_setting">Setting</string>
+    <string name="pref_title_theme">Theme</string>
+    <string name="pref_title_theme0">Dark</string>
+    <string name="pref_title_theme1">Light</string>
+    <string name="pref_title_theme2">Colorful</string>
+    <string name="pref_title_exit">Exit</string>
+    <string name="pref_title_alarm">ALARM</string>
+    <string name="pref_title_playsound">Play Sound</string>
+    <string name="pref_title_choosesound">Choose Sound</string>
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="pref_title_alarmuntilinteraction">Alarm Until Interaction</string>
+    <string name="pref_title_stateawake">State Awake</string>
+    <string name="pref_title_about">ABOUT</string>
+    <string name="pref_title_rateus">Rate Us</string>
+    <string name="pref_summary_playsound">Play a sound at zero seconds</string>
+    <string name="pref_summary_choosesound">Pick a sound that play at zero seconds</string>
+    <string name="pref_summary_vibrate">Vibrate at zero seconds</string>
+    <string name="pref_summary_alarmuntilinteraction">Keep alarm going until you stop it</string>
+    <string name="pref_summary_stateawake">Keep screen on as long as timer is visible</string>
+    <string name="pref_summary_rateus">Please give us five stars if you like our app</string>
+    <string name="silent">Silent</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="configure1x1_title_choose">Choose Timer</string>
+    <string name="configure1x1_title_notify">Notification</string>
+    <string name="configure1x1_notimetask">You have not set any time, Do you want to set up one now?</string>
+    <string name="configure1x1_msg_notask_selected">No timer is chosen!</string>
+    <string name="download_tips1">To use GO Default Search Widget</string>
+    <string name="download_tips2">You must install GOLauncher EX first</string>
+    <string name="download_tips3">GO Launcher EX is the most popular launcher in Android system</string>
+    <string name="download_button">Download GO Launcher EX</string>
+    <string name="copyright">"Copyright © 2004-2012 All Rights Reserved.
+3G.cn"</string>
 
 
 </resources>

@@ -10,6 +10,13 @@ public class StaticResponse {
     public String responseStatus;
     public Boolean status;
 
+    public String getResponseStatus() {
+        return responseStatus = "";
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
 
     public Date getDateFrom(String pattern , String input , Date devault){
         try {

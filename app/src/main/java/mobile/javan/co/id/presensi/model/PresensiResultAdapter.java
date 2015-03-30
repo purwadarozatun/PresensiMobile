@@ -9,6 +9,7 @@ import java.util.List;
 public class PresensiResultAdapter {
     private List<Person> result;
 
+
     public List<Person> getResult() {
         if (result == null) {
             result = new ArrayList<Person>();
@@ -22,6 +23,17 @@ public class PresensiResultAdapter {
     }
 
     public PresensiResultAdapter() {
+    }
+
+    public Person getPersonByNik(String nik) {
+        Person presult = null;
+        for (Person p : result) {
+            if (p.getNik().equals(nik)) {
+                presult = p;
+                break;
+            }
+        }
+        return presult;
     }
 
     public PresensiResultAdapter(List<Person> result) {

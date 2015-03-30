@@ -5,4 +5,38 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="TimeLoop_TextTime">
+        <item name="android:textSize">@dimen/timeloop_textsize_time</item>
+    </style>
+    <style name="TimeLoop_TextTime_Unit">
+        <item name="android:textSize">@dimen/timeloop_textsize_timeunit</item>
+    </style>
+    <style name="TimeLoop_TextTime_Control">
+        <item name="android:textSize">@dimen/timeloop_textsize_ctrl</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TimeLoop_TextTime_AddTime">
+        <item name="android:textSize">@dimen/timeloop_textsize_addtime</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TimeLoopSmall_TextTime">
+        <item name="android:textSize">@dimen/timeloopsmall_textsize_time</item>
+    </style>
+    <style name="Notification_TextTime_Label">
+        <item name="android:textSize">@dimen/noitify_textsize_label</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="Notification_TextTime_Status">
+        <item name="android:textSize">@dimen/noitify_textsize_status</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+    <style name="Notification_Text_Stop">
+        <item name="android:textSize">@dimen/noitify_textsize_stop</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+    <style name="Widget1x1_TextSize">
+        <item name="android:textSize">@dimen/widget1x1_textsize</item>
+        <item name="android:textColor">@color/widget1x1_none_textcolor</item>
+    </style>
+
 </resources>

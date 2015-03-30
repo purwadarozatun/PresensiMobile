@@ -13,7 +13,7 @@ public class Person {
     private Date jamKerja;
     private Integer durasiKerja = 1;
     private Boolean terlambat = false;
-    private String izin = "";
+    private String izin;
 
     public Person(String nama, String nik, Date jamMasuk, Date jamKeluar, Date jamKerja, Integer durasiKerja, Boolean terlambat, String izin) {
         this.nama = nama;
@@ -144,5 +144,7 @@ public class Person {
     public void setJamKerja(Date jamKerja) {
         this.jamKerja = jamKerja;
     }
+
+
 }
 

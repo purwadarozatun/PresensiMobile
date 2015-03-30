@@ -3,4 +3,27 @@
          (such as screen margins) for screens with more than 820dp of available width. This
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
     <dimen name="activity_horizontal_margin">64dp</dimen>
+
+    <dimen name="noitify_height">64.0dip</dimen>
+    <dimen name="noitify_text_marginleft">8.0dip</dimen>
+    <dimen name="noitify_textsize_label">18.0dip</dimen>
+    <dimen name="noitify_textsize_status">13.0dip</dimen>
+    <dimen name="noitify_textsize_stop">18.0dip</dimen>
+    <dimen name="timeloop_diameter">340.0dip</dimen>
+    <dimen name="timeloop_arraw_width">170.0dip</dimen>
+    <dimen name="timeloop_arraw_height">170.0dip</dimen>
+    <dimen name="timeloop_margintop_textctrl">32.0dip</dimen>
+    <dimen name="timeloop_textsize_time">60.0dip</dimen>
+    <dimen name="timeloop_textsize_timeunit">21.0dip</dimen>
+    <dimen name="timeloop_textsize_ctrl">30.0dip</dimen>
+    <dimen name="timeloop_textsize_addtime">24.0dip</dimen>
+    <dimen name="timeloop_textsize_addtime_padding">12.0dip</dimen>
+    <dimen name="timeloop_imagesize_reset">48.0dip</dimen>
+    <dimen name="timeloop_loop_margintop">120.0dip</dimen>
+    <dimen name="pageitem_button_margin">34.0dip</dimen>
+    <dimen name="pageitem_indicator_size">10.0dip</dimen>
+    <dimen name="pageitem_indicator_margin">12.0dip</dimen>
+    <dimen name="timeloopsmall_textsize_time">16.0dip</dimen>
+    <dimen name="widget_cellsize">72.0dip</dimen>
+    <dimen name="widget1x1_textsize">12.0dip</dimen>
 </resources>
