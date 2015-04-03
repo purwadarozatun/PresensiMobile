@@ -45,8 +45,8 @@ public class ConnectionFragment {
         HttpResponse response;
         HttpClient myClient = new DefaultHttpClient();
         //2015-03-23T00:17:13.933Z
-//        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new StaticResponse().getStringFrom("yyyy-MM-dd", new Date(), null) + "T00:17:13.933Z";
-        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=2015-03-20T00:17:13.933Z";
+        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new StaticResponse().getStringFrom("yyyy-MM-dd", new Date(), null) + "T00:17:13.933Z";
+//        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=2015-03-20T00:17:13.933Z";
         Log.v("Url", url);
         HttpPost myConnection = new HttpPost(url);
 
