@@ -27,7 +27,7 @@ import mobile.javan.co.id.presensi.model.StaticResponse;
 import mobile.javan.co.id.presensi.service.ConnectionFragment;
 
 
-public class Watch extends ActionBarActivity {
+public class WatchActivity extends ActionBarActivity {
     private Person mPerson;
 
 
@@ -35,8 +35,6 @@ public class Watch extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch);
-
-
         this.setDataToActivity();
     }
 
@@ -47,10 +45,12 @@ public class Watch extends ActionBarActivity {
         String nik = intent.getStringExtra("personNik");
         PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
         mPerson = presensiResultAdapter.getPersonByNik(nik);
+        if (mPerson != null) {
 
-        ((TextView) findViewById(R.id.personNik)).setText("" + mPerson.getNik());
-        ((TextView) findViewById(R.id.personName)).setText("" + mPerson.getNama());
+            ((TextView) findViewById(R.id.personNik)).setText("" + mPerson.getNik());
+            ((TextView) findViewById(R.id.personName)).setText("" + mPerson.getNama());
 
+        }
         Double persentasiJamkerja = 0D;
         Double jumlahJamKerja = 540D;
         Double jamKerjaMenit = 0D;

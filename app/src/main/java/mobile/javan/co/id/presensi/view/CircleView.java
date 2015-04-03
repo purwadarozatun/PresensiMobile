@@ -1,7 +1,7 @@
 /*
  * 
  */
-package mobile.javan.co.id.presensi;
+package mobile.javan.co.id.presensi.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import mobile.javan.co.id.presensi.R;
 
 /**
  * CurvedTextView

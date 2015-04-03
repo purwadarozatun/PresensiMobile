@@ -3,6 +3,7 @@ package mobile.javan.co.id.presensi.service;
 import android.os.StrictMode;
 import android.util.Log;
 
+import org.apache.http.ConnectionClosedException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -55,6 +56,7 @@ public class ConnectionFragment {
             str = EntityUtils.toString(response.getEntity(), "UTF-8");
 
         } catch (ClientProtocolException e) {
+
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

@@ -12,7 +12,7 @@
         android:layout_height="@dimen/timeloop_diameter"
         android:layout_centerInParent="true"
 
-        tools:context="mobile.javan.co.id.presensi.Watch"
+        tools:context="mobile.javan.co.id.presensi.WatchActivity"
         android:layout_gravity="center_horizontal|bottom">
 
         <RelativeLayout

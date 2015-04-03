@@ -1,13 +1,10 @@
 package mobile.javan.co.id.presensi;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,18 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
 import mobile.javan.co.id.presensi.model.Person;
-import mobile.javan.co.id.presensi.R;
-import mobile.javan.co.id.presensi.model.PresensiArrayAdapter;
-import mobile.javan.co.id.presensi.service.ConnectionFragment;
-import mobile.javan.co.id.presensi.service.SqlLiteAdapter;
+import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.util.Statics;
 
 
 public class MainActivity extends ActionBarActivity implements PresensiListFragment.OnFragmentInteractionListener {
@@ -45,7 +38,7 @@ public class MainActivity extends ActionBarActivity implements PresensiListFragm
         setContentView(R.layout.activity_main);
 
 
-        mPlanetTitles = new String[]{"Home", "List"};
+        mPlanetTitles = new String[]{"Home", "List", "Watch", "Setting"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         // Set the adapter for the list view
@@ -53,6 +46,8 @@ public class MainActivity extends ActionBarActivity implements PresensiListFragm
                 android.R.layout.simple_list_item_1, mPlanetTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        selectItem(1);
         selectItem(0);
 
     }
@@ -95,17 +90,11 @@ public class MainActivity extends ActionBarActivity implements PresensiListFragm
     private void selectItem(int position) {
         if (position == 0) {
 
-            String FILENAME = "niksettingfile";
-            String fileResponse = null;
-            try {
-                FileInputStream fos = openFileInput(FILENAME);
-                fileResponse = new BufferedReader(new InputStreamReader(fos)).readLine();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            String fileResponse = new Statics().getConfigData(this);
             if (fileResponse != null) {
-                Toast.makeText(this, "Watch Activatte for user " + fileResponse, Toast.LENGTH_SHORT).show();
-            }else{
+                startWatchActivity(fileResponse.trim());
+            } else {
+                Toast.makeText(this, "Watch Feature Need Configuration First", Toast.LENGTH_SHORT);
                 selectItem(1);
             }
         } else if (position == 1) {
@@ -116,10 +105,15 @@ public class MainActivity extends ActionBarActivity implements PresensiListFragm
             fragmentManager.beginTransaction()
                     .replace(R.id.container, fragment)
                     .commit();
+        } else if (position == 2) {
+            Toast.makeText(this, "Watch Feature Not Avaiable", Toast.LENGTH_SHORT);
+            selectItem(1);
+        } else if (position == 3) {
+            startSettinngActivity();
         }
         mDrawerList.setItemChecked(position, true);
 
-        setTitle(mPlanetTitles[position]);
+        setTitle("Presensi Javan");
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
@@ -133,9 +127,26 @@ public class MainActivity extends ActionBarActivity implements PresensiListFragm
 
     @Override
     public void onFragmentInteraction(Person p) {
-        Intent intent = new Intent(this, Watch.class);
+        startWatchActivity(p.getNik());
+    }
+
+    private void startWatchActivity(String nik) {
+        PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
+        Person person = presensiResultAdapter.getPersonByNik(nik.trim());
+        if (person == null) {
+            selectItem(1);
+        }
+//        Toast.makeText(this, "Watch Activate for user " + nik, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, WatchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("personNik", p.getNik());
+        intent.putExtra("personNik", nik);
         startActivity(intent);
     }
+
+    private void startSettinngActivity() {
+        Intent intent = new Intent(this, SettingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
 }

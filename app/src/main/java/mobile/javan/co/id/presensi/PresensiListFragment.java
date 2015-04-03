@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import mobile.javan.co.id.presensi.dummy.DummyContent;
 import mobile.javan.co.id.presensi.model.Person;
 import mobile.javan.co.id.presensi.model.PresensiArrayAdapter;
 import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
