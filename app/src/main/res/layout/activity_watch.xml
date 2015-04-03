@@ -1,0 +1,122 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:circleview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/frame_timeloop"
+        android:layout_width="@dimen/timeloop_diameter"
+        android:layout_height="@dimen/timeloop_diameter"
+        android:layout_centerInParent="true"
+
+        tools:context="mobile.javan.co.id.presensi.Watch"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical|top">
+
+            <LinearLayout
+                android:id="@+id/lin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:text="00" />
+
+                <TextView
+                    android:id="@+id/tv_unit_hour"
+                    style="@style/TimeLoop_TextTime_Unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time_unit_hour" />
+
+                <TextView
+                    android:id="@+id/tv_minute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="00" />
+                <TextView
+                    android:id="@+id/tv_unit_minute"
+                    style="@style/TimeLoop_TextTime_Unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time_unit_minute" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/fram_halocircle"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_halocircle_solid"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:background="@drawable/dark_green_halo_solid"-->
+                <!--android:contentDescription="@string/content_description" />-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_halocircle"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:contentDescription="@string/content_description" />-->
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="100"	android:progressDrawable="@drawable/circle_progress_background" />
+
+            <ProgressBar
+                android:id="@+id/circle_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:max="100"
+                android:rotation="-90"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circle_progress_foreground"
+                />
+        </FrameLayout>
+
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/personNik"
+        android:padding="5dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/personName"
+        android:padding="5dp"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

@@ -45,8 +45,8 @@ public class ConnectionFragment {
         HttpResponse response;
         HttpClient myClient = new DefaultHttpClient();
         //2015-03-23T00:17:13.933Z
-        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new StaticResponse().getStringFrom("yyyy-MM-dd", new Date(), null) + "T00:17:13.933Z";
-//        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=2015-03-20T00:17:13.933Z";
+//        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new StaticResponse().getStringFrom("yyyy-MM-dd", new Date(), null) + "T00:17:13.933Z";
+        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=2015-03-20T00:17:13.933Z";
         Log.v("Url", url);
         HttpPost myConnection = new HttpPost(url);
 
@@ -60,27 +60,38 @@ public class ConnectionFragment {
             e.printStackTrace();
         }
 
+        JSONArray jsonArray = null;
         try {
-            JSONArray jsonArray = new JSONArray(str);
-            for (int i = 0; i < jsonArray.length(); i++) {
+            jsonArray = new JSONArray(str);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
 
                 JSONObject jObject = jsonArray.getJSONObject(i);
-                Person p = new Person();
-                p.setNama(jObject.getString("absensi_nama_lengkap"));
-                p.setNik(jObject.getString("absensi_pin"));
-                p.setIzin(jObject.getString("absensi_izin"));
-                p.setJamMasuk(new StaticResponse().getDateFrom("hh:MM:ss", jObject.getString("absensi_masuk"), null));
-                p.setJamKeluar(new StaticResponse().getDateFrom("hh:MM:ss", jObject.getString("absensi_keluar"), null));
-                p.setJamKerja(new StaticResponse().getDateFrom("hh:MM:ss", jObject.getString("duration"), null));
+                Person p = new Person(jObject.getString("absensi_nama_lengkap"));
+                if (jObject.has("absensi_pin"))
+                    p.setNik(jObject.getString("absensi_pin"));
+                if (jObject.has("absensi_izin"))
+                    p.setIzin(jObject.getString("absensi_izin"));
+                if (jObject.has("absensi_masuk"))
+                    p.setJamMasuk(new StaticResponse().getDateFrom("hh:mm:ss", jObject.getString("absensi_masuk"), null));
+                if (jObject.has("absensi_keluar"))
+                    p.setJamKeluar(new StaticResponse().getDateFrom("hh:mm:ss", jObject.getString("absensi_keluar"), null));
+                if (jObject.has("duration"))
+                    p.setJamKerja(new StaticResponse().getDateFrom("hh:mm:ss", jObject.getString("duration"), null));
+                if (jObject.has("duration_hour"))
+                    p.setDurasiKerja(jObject.getInt("duration_hour"));
 
                 persons.add(p);
 
 
-            } // End Loop
+            } catch (JSONException e) {
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            }
+        } // End Loop
+
 
         this.presensiResultAdapter = new PresensiResultAdapter(persons);
         Log.v("Hasil", "Hasil" + str);

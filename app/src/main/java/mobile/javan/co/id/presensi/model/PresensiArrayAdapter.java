@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -30,9 +33,12 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
     }
 
     static class ViewHolder {
+        protected LinearLayout layout;
         protected TextView nama;
         protected TextView status;
         protected TextView nik;
+        protected TextView jamMasuk;
+        protected TextView jamKerja;
     }
 
     @Override
@@ -43,33 +49,38 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
             view = inflater.inflate(R.layout.presensi_list, null);
             final ViewHolder viewHolder = new ViewHolder();
             viewHolder.nama = (TextView) view.findViewById(R.id.label);
-            viewHolder.nik = (TextView) view.findViewById(R.id.nik);
+            viewHolder.jamKerja = (TextView) view.findViewById(R.id.jam_kerja);
             viewHolder.status = (TextView) view.findViewById(R.id.status);
+            viewHolder.jamMasuk = (TextView) view.findViewById(R.id.jam_masuk);
+            viewHolder.layout = (LinearLayout) view.findViewById(R.id.mainlayout);
             view.setTag(viewHolder);
         } else {
             view = convertView;
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.nama.setText(persons.get(position).getNama());
-        holder.nik.setText(persons.get(position).getNik());
+        if (persons.get(position).getJamMasuk() != null) {
+            holder.jamKerja.setText("" + persons.get(position).getDurasiKerja());
+            holder.jamMasuk.setText("Jam Masuk : " + new StaticResponse().getStringFrom("hh:mm:ss" , persons.get(position).getJamMasuk() , "00:00:00"));
+            holder.jamMasuk.setVisibility(View.VISIBLE);
+        }else{
+            holder.jamKerja.setText("-");
+            holder.jamMasuk.setVisibility(View.GONE);
+        }
         StaticResponse staticResponse = persons.get(position).getStatusKerja();
-        holder.nama.setBackgroundColor(Color.argb(50, 255, 255, 255));
-        holder.status.setBackgroundColor(Color.argb(50, 255, 255, 255));
+        holder.layout.setBackgroundColor(Color.argb(50, 255, 255, 255));
         holder.status.setText("");
 
         if (staticResponse != null) {
             if (staticResponse.status == true) {
-                holder.nama.setBackgroundColor(Color.argb(50, 86, 232, 151));
-                holder.status.setBackgroundColor(Color.argb(50, 86, 232, 151));
+                holder.layout.setBackgroundColor(Color.argb(50, 86, 232, 151));
             } else {
-                holder.nama.setBackgroundColor(Color.argb(50, 255, 96, 74));
-                holder.status.setBackgroundColor(Color.argb(50, 255, 96, 74));
+                holder.layout.setBackgroundColor(Color.argb(50, 255, 96, 74));
             }
             holder.status.setText(staticResponse.responseStatus);
         }
-        if(persons.get(position).getIzin() != "" && !persons.get(position).getIzin().equals("null")){
-            holder.nama.setBackgroundColor(Color.argb(100, 130, 218, 232));
-            holder.status.setBackgroundColor(Color.argb(100, 130, 218, 232));
+        if (persons.get(position).getIzin() != "" && !persons.get(position).getIzin().equals("null")) {
+            holder.layout.setBackgroundColor(Color.argb(100, 130, 218, 232));
             holder.status.setText(persons.get(position).getIzin());
         }
 

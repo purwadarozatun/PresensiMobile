@@ -3,6 +3,7 @@ package mobile.javan.co.id.presensi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +20,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 
 import mobile.javan.co.id.presensi.model.Person;
 import mobile.javan.co.id.presensi.R;
@@ -39,19 +45,15 @@ public class MainActivity extends ActionBarActivity implements PresensiListFragm
         setContentView(R.layout.activity_main);
 
 
-        mPlanetTitles = new String[]{"Home", "List", "Watch", "Setting"};
+        mPlanetTitles = new String[]{"Home", "List"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+        mDrawerList.setAdapter(new ArrayAdapter<String>(t his,
                 android.R.layout.simple_list_item_1, mPlanetTitles));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-
-        SqlLiteAdapter.FeedReaderDbHelper mDbHelper;
         selectItem(0);
-
 
     }
 
@@ -67,29 +69,60 @@ public class MainActivity extends ActionBarActivity implements PresensiListFragm
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             selectItem(position);
+
         }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.refresh) {
+            selectItem(1);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
      * Swaps fragments in the main content view
      */
     private void selectItem(int position) {
-        // Create a new fragment and specify the planet to show based on position
-        Fragment fragment = null;
-        fragment = new PresensiListFragment();
+        if (position == 0) {
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+            String FILENAME = "niksettingfile";
+            String fileResponse = null;
+            try {
+                FileInputStream fos = openFileInput(FILENAME);
+                fileResponse = new BufferedReader(new InputStreamReader(fos)).readLine();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            if (fileResponse != null) {
+                Toast.makeText(this, "Watch Activatte for user " + fileResponse, Toast.LENGTH_SHORT).show();
+            }else{
+                selectItem(1);
+            }
+        } else if (position == 1) {
+            Fragment fragment = null;
+            fragment = new PresensiListFragment();
 
-        // Highlight the selected item, update the title, and close the drawer
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+        }
         mDrawerList.setItemChecked(position, true);
 
         setTitle(mPlanetTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
+
 
     @Override
     public void setTitle(CharSequence title) {
@@ -98,14 +131,11 @@ public class MainActivity extends ActionBarActivity implements PresensiListFragm
     }
 
 
-
     @Override
     public void onFragmentInteraction(Person p) {
         Intent intent = new Intent(this, Watch.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        String jsonPerson = new Gson().toJson(p);
-        Log.v("JsonResult", jsonPerson);
-        intent.putExtra("jsonPerson", jsonPerson);
+        intent.putExtra("personNik", p.getNik());
         startActivity(intent);
     }
 }

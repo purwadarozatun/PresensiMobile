@@ -3,6 +3,8 @@ package mobile.javan.co.id.presensi.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import mobile.javan.co.id.presensi.service.ConnectionFragment;
+
 /**
  * Created by Purwa on 20/03/2015.
  */
@@ -26,9 +28,12 @@ public class PresensiResultAdapter {
     }
 
     public Person getPersonByNik(String nik) {
+        ConnectionFragment connectionFragment = new ConnectionFragment();
+
+        this.result =  connectionFragment.getPresensis().getResult();
         Person presult = null;
         for (Person p : result) {
-            if (p.getNik().equals(nik)) {
+               if (p.getNik().equals(nik)) {
                 presult = p;
                 break;
             }
