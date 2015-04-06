@@ -1,5 +1,11 @@
 package mobile.javan.co.id.presensi.service;
 
+import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -112,5 +118,26 @@ public class ConnectionFragment {
         }
         this.getPresensiData();
         return this.getPresensiResultAdapter();
+    }
+
+
+    public String getWifiStatus(Activity contex) {
+    /*
+        this Prototype to get BSSID ,
+        WHY Bissd ?
+        Because BSSID Is Mac Adress Router / Server Computer
+    */
+
+        ConnectivityManager connManager = (ConnectivityManager) contex.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        String SSID = "";
+        if (mWifi.isConnected()) {
+            // Do whatever
+            WifiManager wifiManager = (WifiManager) contex.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo info = wifiManager.getConnectionInfo();
+
+            SSID = info.getBSSID();
+        }
+        return SSID;
     }
 }

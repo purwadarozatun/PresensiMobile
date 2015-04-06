@@ -1,11 +1,22 @@
 package mobile.javan.co.id.presensi;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -27,6 +38,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import mobile.javan.co.id.presensi.model.MenuArrayAdapter;
+import mobile.javan.co.id.presensi.model.MenuModel;
 import mobile.javan.co.id.presensi.model.Person;
 import mobile.javan.co.id.presensi.model.PresensiArrayAdapter;
 import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
@@ -54,11 +67,18 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         mActionBar = getSupportActionBar();
         mPlanetTitles = new String[]{"Home", "Watch", "Setting"};
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mPlanetTitles));
+        List<MenuModel> menuModels = new ArrayList<MenuModel>();
+        menuModels.add(new MenuModel("HOME", "Home"));
+        menuModels.add(new MenuModel("WATCH", "Watch"));
+        menuModels.add(new MenuModel("SETTING", "Setting"));
+
+        MenuArrayAdapter menuArrayAdapter = new MenuArrayAdapter(this, menuModels);
+
+        mDrawerList.setAdapter(menuArrayAdapter);
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -67,8 +87,24 @@ public class MainActivity extends ActionBarActivity {
         mActionBar.setIcon(R.mipmap.ic_launcher);
         mReloadStatus = (RelativeLayout) findViewById(R.id.reload_status);
         selectItem(0);
+    }
+
+    private void setNotification() {
+        //Todo ; Tambah Pengecekan Tanggal Lalu Munculkan NOTIF
 
 
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+        CharSequence tickerText = "MyApplication";
+        long when = System.currentTimeMillis();
+        Notification notification = new Notification(R.drawable.abc_btn_check_material, tickerText, when);
+        notification.defaults |= Notification.DEFAULT_SOUND|Notification.DEFAULT_VIBRATE|Notification.DEFAULT_LIGHTS;;
+        CharSequence contentTitle = "Testing Notif";
+        CharSequence contentText = "Test";
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(this, contentTitle, contentText, contentIntent);
+        mNotificationManager.notify(2, notification);
     }
 
     private void getPresensiData() {
@@ -94,6 +130,7 @@ public class MainActivity extends ActionBarActivity {
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 String jPerson = bundle.getString(DownloadPresensiData.FILEPATH);
@@ -119,6 +156,7 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
+
 
     @Override
     protected void onResume() {
