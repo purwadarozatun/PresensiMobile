@@ -24,7 +24,6 @@ public class StaticResponse {
             return simpleDateFormat.parse(input);
 
         }catch (Exception ex){
-            ex.printStackTrace();
             return devault;
         }
 
@@ -35,7 +34,6 @@ public class StaticResponse {
             return simpleDateFormat.format(input);
 
         }catch (Exception ex){
-            ex.printStackTrace();
             return devault;
         }
 

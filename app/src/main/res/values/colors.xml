@@ -22,6 +22,9 @@
     <color name="text_gray">#6B767D</color>
 
     <color name="coral_blue">#1DAEFA</color>
+    <color name="javan_bg">#454545</color>
+    <color name="app_name_color">#CACCC2</color>
+    <color name="refresh_loader">#7D7D7D</color>
     <color name="coral_blue_pressed">#1A9CE1</color>
     <color name="dark_blue">#125D9D</color>
     <color name="dark_blue_pressed">#10538D</color>

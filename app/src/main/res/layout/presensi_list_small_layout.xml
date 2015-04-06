@@ -21,15 +21,15 @@
                 android:background="@drawable/statusfilter">
 
                 <TextView
+                    android:id="@+id/jam_kerja"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:textAlignment="center"
-                    android:text="I"
-                    android:id="@+id/jam_kerja"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/thirty_dp"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:text="I"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/thirty_dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -45,6 +45,15 @@
                     android:layout_gravity="left|top"
                     android:text="@+id/label"
                     android:textSize="15dp"></TextView>
+
+                <TextView
+                    android:id="@+id/nik"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|top"
+                    android:text="@+id/nik"
+                    android:textSize="15dp"
+                    android:visibility="gone"></TextView>
 
                 <TextView
                     android:id="@+id/jam_masuk"

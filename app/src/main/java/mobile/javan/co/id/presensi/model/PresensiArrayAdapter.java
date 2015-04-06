@@ -50,6 +50,7 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
             final ViewHolder viewHolder = new ViewHolder();
             viewHolder.nama = (TextView) view.findViewById(R.id.label);
             viewHolder.jamKerja = (TextView) view.findViewById(R.id.jam_kerja);
+            viewHolder.nik = (TextView) view.findViewById(R.id.nik);
             viewHolder.status = (TextView) view.findViewById(R.id.status);
             viewHolder.jamMasuk = (TextView) view.findViewById(R.id.jam_masuk);
             viewHolder.layout = (LinearLayout) view.findViewById(R.id.mainlayout);
@@ -59,11 +60,12 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
         }
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.nama.setText(persons.get(position).getNama());
+        holder.nik.setText(persons.get(position).getNik());
         if (persons.get(position).getJamMasuk() != null) {
             holder.jamKerja.setText("" + persons.get(position).getDurasiKerja());
-            holder.jamMasuk.setText("Jam Masuk : " + new StaticResponse().getStringFrom("hh:mm:ss" , persons.get(position).getJamMasuk() , "00:00:00"));
+            holder.jamMasuk.setText("Jam Masuk : " + new StaticResponse().getStringFrom("hh:mm:ss", persons.get(position).getJamMasuk(), "00:00:00"));
             holder.jamMasuk.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.jamKerja.setText("-");
             holder.jamMasuk.setVisibility(View.GONE);
         }
