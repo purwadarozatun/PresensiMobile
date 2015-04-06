@@ -32,9 +32,9 @@
     <string name="app_channel">200</string>
     <string name="widget_label_1x1">OK Timer</string>
     <string name="content_description">content description</string>
-    <string name="time_unit_hour">H</string>
-    <string name="time_unit_minute">M</string>
-    <string name="time_unit_second">S</string>
+    <string name="time_unit_hour">Hour</string>
+    <string name="time_unit_minute">Minute</string>
+    <string name="time_unit_second">Second</string>
     <string name="ctrl_start">Start</string>
     <string name="ctrl_stop">Stop</string>
     <string name="ctrl_addtime">+15s</string>

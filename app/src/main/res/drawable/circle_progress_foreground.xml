@@ -7,10 +7,16 @@
                 android:thickness="@dimen/ten_dp"
                 android:useLevel="true">
                 
+                <!--<gradient-->
+                    <!--android:startColor="@color/dark_blue"-->
+                    <!--android:endColor="@color/coral_blue"-->
+                    <!--android:type="sweep" />   -->
+
                 <gradient
-                    android:startColor="@color/dark_blue"
-                    android:endColor="@color/coral_blue"
-                    android:type="sweep" />   
+                    android:startColor="@color/bg_watch_progress"
+                    android:endColor="@color/bg_watch_progress"
+                    android:type="sweep" />
+
             </shape>
     </item>
 </layer-list>

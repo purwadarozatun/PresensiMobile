@@ -37,4 +37,9 @@
 
     <color name="black">#ff000000</color>
 
+    <color name="bg_watch_main">#454545</color>
+    <color name="bg_watch_progress_main">#191919</color>
+    <color name="bg_watch_progress">#1AC5F8</color>
+    <color name="bg_watch_block">#222222</color>
+
 </resources>

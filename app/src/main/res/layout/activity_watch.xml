@@ -3,7 +3,7 @@
     xmlns:circleview="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FFFFFF"
+    android:background="@color/bg_watch_main"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -26,34 +26,64 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="horizontal">
+                
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="5dp"
-                    android:text="00" />
+                    <TextView
+                        android:id="@+id/tv_unit_hour"
+                        style="@style/TimeLoop_TextTime_Unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time_unit_hour"
+                        android:textAlignment="center"
+                        android:textColor="@color/bg_watch_progress"/>
 
-                <TextView
-                    android:id="@+id/tv_unit_hour"
-                    style="@style/TimeLoop_TextTime_Unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/time_unit_hour" />
+                    <TextView
+                        android:id="@+id/tv_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="5dp"
+                        android:textAlignment="center"
+                        android:text="00"
+                        android:textSize="72sp"
+                        android:layout_marginTop="-15dp"
+                        android:textColor="@color/bg_watch_progress"/>
 
-                <TextView
-                    android:id="@+id/tv_minute"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingRight="5dp"
-                    android:paddingLeft="5dp"
-                    android:text="00" />
-                <TextView
-                    android:id="@+id/tv_unit_minute"
-                    style="@style/TimeLoop_TextTime_Unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/time_unit_minute" />
+                    android:layout_marginLeft="15dp"
+                    android:paddingTop="35dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_unit_minute"
+                        style="@style/TimeLoop_TextTime_Unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time_unit_minute"
+                        android:textAlignment="center"
+                        android:textColor="@color/bg_watch_progress"/>
+
+                    <TextView
+                        android:id="@+id/tv_minute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:layout_marginTop="-5dp"
+                        android:text="00"
+                        android:textAlignment="center"
+                        android:textSize="28sp"
+                        android:textColor="@color/bg_watch_progress"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -101,22 +131,45 @@
 
 
     </RelativeLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/personNik"
-        android:padding="5dp"
-        android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/personName"
-        android:padding="5dp"
-        android:layout_gravity="center_horizontal" />
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:background="@color/bg_watch_block">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:textColor="@color/bg_watch_progress"
+                android:textSize="18sp"
+                android:id="@+id/personName"
+                android:padding="5dp"
+                android:layout_gravity="left" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:textSize="14sp"
+                android:layout_marginTop="-2dp"
+                android:textColor="@color/bg_watch_progress"
+                android:id="@+id/personNik"
+                android:padding="5dp"
+                android:layout_gravity="left" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

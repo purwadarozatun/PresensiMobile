@@ -6,10 +6,16 @@
             android:shape="ring"
             android:thickness="@dimen/ten_dp">
             
+            <!--<gradient-->
+                <!--android:startColor="@color/light_gray"-->
+                <!--android:endColor="@color/light_gray"-->
+                <!--android:type="sweep" />   -->
+
             <gradient
-                android:startColor="@color/light_gray"
-                android:endColor="@color/light_gray"
-                android:type="sweep" />   
+            android:startColor="@color/bg_watch_progress_main"
+            android:endColor="@color/bg_watch_progress_main"
+            android:type="sweep" />
+
         </shape>
     </item>
 </layer-list>
