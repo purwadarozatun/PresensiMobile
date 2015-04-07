@@ -9,7 +9,6 @@ import android.net.wifi.WifiManager;
 import android.os.StrictMode;
 import android.util.Log;
 
-import org.apache.http.ConnectionClosedException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -26,8 +25,9 @@ import java.util.Date;
 import java.util.List;
 
 import mobile.javan.co.id.presensi.model.Person;
-import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
-import mobile.javan.co.id.presensi.model.StaticResponse;
+import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.model.adapter.result.StaticResultAdapter;
+import mobile.javan.co.id.presensi.util.Statics;
 
 /**
  * Created by Purwa on 20/03/2015.
@@ -52,9 +52,8 @@ public class ConnectionFragment {
         HttpResponse response;
         HttpClient myClient = new DefaultHttpClient();
         //2015-03-23T00:17:13.933Z
-        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new StaticResponse().getStringFrom("yyyy-MM-dd", new Date(), null) + "T00:17:13.933Z";
+        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new Statics().getStringFrom("yyyy-MM-dd", new Date(), null) + "T00:17:13.933Z";
 //        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=2015-03-20T00:17:13.933Z";
-        Log.v("Url", url);
         HttpPost myConnection = new HttpPost(url);
 
         try {
@@ -84,11 +83,11 @@ public class ConnectionFragment {
                 if (jObject.has("absensi_izin"))
                     p.setIzin(jObject.getString("absensi_izin"));
                 if (jObject.has("absensi_masuk"))
-                    p.setJamMasuk(new StaticResponse().getDateFrom("hh:mm:ss", jObject.getString("absensi_masuk"), null));
+                    p.setJamMasuk(new Statics().getDateFrom("hh:mm:ss", jObject.getString("absensi_masuk"), null));
                 if (jObject.has("absensi_keluar"))
-                    p.setJamKeluar(new StaticResponse().getDateFrom("hh:mm:ss", jObject.getString("absensi_keluar"), null));
+                    p.setJamKeluar(new Statics().getDateFrom("hh:mm:ss", jObject.getString("absensi_keluar"), null));
                 if (jObject.has("duration"))
-                    p.setJamKerja(new StaticResponse().getDateFrom("hh:mm:ss", jObject.getString("duration"), null));
+                    p.setJamKerja(new Statics().getDateFrom("hh:mm:ss", jObject.getString("duration"), null));
                 if (jObject.has("duration_hour"))
                     p.setDurasiKerja(jObject.getInt("duration_hour"));
 
@@ -102,7 +101,6 @@ public class ConnectionFragment {
 
 
         this.presensiResultAdapter = new PresensiResultAdapter(persons);
-        Log.v("Hasil", "Hasil" + str);
     }
 
     public PresensiResultAdapter getPresensis() {

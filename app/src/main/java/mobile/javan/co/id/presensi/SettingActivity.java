@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.io.FileOutputStream;
 
+import mobile.javan.co.id.presensi.model.Settings;
 import mobile.javan.co.id.presensi.util.Statics;
 
 
@@ -31,16 +32,31 @@ public class SettingActivity extends ActionBarActivity {
         mActivity = this;
         mButton = (Button) findViewById(R.id.buttonSettingSave);
         mNikEdit = (EditText) mActivity.findViewById(R.id.nik);
-        mNikEdit.setText(new Statics().getConfigData(this));
-        mButton.setOnClickListener(new SaveButtonClickListener());
+
+        Settings settings = new Settings();
+        settings = ((MainApplication) getApplication()).getSettings(this);
+        if (settings != null) {
+            mNikEdit.setText(settings.getWatchNik());
+        }
+        mButton.setOnClickListener(new SaveButtonClickListener(mActivity));
 
     }
 
 
     private class SaveButtonClickListener implements Button.OnClickListener {
+        Activity mActivity;
+
+        private SaveButtonClickListener(Activity mActivity) {
+            this.mActivity = mActivity;
+        }
+
         @Override
         public void onClick(View v) {
-            new Statics().setConfgData(mNikEdit.getText().toString(), mActivity);
+
+            Settings settings = new Settings();
+            settings = ((MainApplication) getApplication()).getSettings(mActivity);
+            settings.setWatchNik(mNikEdit.getText().toString());
+            new Statics().setConfgData(settings, mActivity);
         }
     }
 

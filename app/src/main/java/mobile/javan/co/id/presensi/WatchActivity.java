@@ -1,30 +1,19 @@
 package mobile.javan.co.id.presensi;
 
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import org.joda.time.Hours;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import mobile.javan.co.id.presensi.model.Person;
-import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
-import mobile.javan.co.id.presensi.model.StaticResponse;
-import mobile.javan.co.id.presensi.service.ConnectionFragment;
+import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
 
 
 public class WatchActivity extends ActionBarActivity {

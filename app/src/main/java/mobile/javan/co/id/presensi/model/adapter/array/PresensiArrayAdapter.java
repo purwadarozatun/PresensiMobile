@@ -1,8 +1,7 @@
-package mobile.javan.co.id.presensi.model;
+package mobile.javan.co.id.presensi.model.adapter.array;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.joda.time.LocalDateTime;
-
 import java.util.List;
 
 import mobile.javan.co.id.presensi.R;
+import mobile.javan.co.id.presensi.model.Person;
+import mobile.javan.co.id.presensi.model.adapter.result.StaticResultAdapter;
+import mobile.javan.co.id.presensi.util.Statics;
 
 /**
  * Created by Purwa on 20/03/2015.
@@ -63,23 +63,23 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
         holder.nik.setText(persons.get(position).getNik());
         if (persons.get(position).getJamMasuk() != null) {
             holder.jamKerja.setText("" + persons.get(position).getDurasiKerja());
-            holder.jamMasuk.setText("Jam Masuk : " + new StaticResponse().getStringFrom("hh:mm:ss", persons.get(position).getJamMasuk(), "00:00:00"));
+            holder.jamMasuk.setText("Jam Masuk : " + new Statics().getStringFrom("hh:mm:ss", persons.get(position).getJamMasuk(), "00:00:00"));
             holder.jamMasuk.setVisibility(View.VISIBLE);
         } else {
             holder.jamKerja.setText("-");
             holder.jamMasuk.setVisibility(View.GONE);
         }
-        StaticResponse staticResponse = persons.get(position).getStatusKerja();
+        StaticResultAdapter staticResultAdapter = persons.get(position).getStatusKerja();
         holder.layout.setBackgroundColor(Color.argb(50, 255, 255, 255));
         holder.status.setText("");
 
-        if (staticResponse != null) {
-            if (staticResponse.status == true) {
+        if (staticResultAdapter != null) {
+            if (staticResultAdapter.status == true) {
                 holder.layout.setBackgroundColor(Color.argb(50, 86, 232, 151));
             } else {
                 holder.layout.setBackgroundColor(Color.argb(50, 255, 96, 74));
             }
-            holder.status.setText(staticResponse.responseStatus);
+            holder.status.setText(staticResultAdapter.responseStatus);
         }
         if (persons.get(position).getIzin() != "" && !persons.get(position).getIzin().equals("null")) {
             holder.layout.setBackgroundColor(Color.argb(100, 130, 218, 232));

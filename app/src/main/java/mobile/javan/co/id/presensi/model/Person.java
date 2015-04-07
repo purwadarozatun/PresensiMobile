@@ -2,6 +2,8 @@ package mobile.javan.co.id.presensi.model;
 
 import java.util.Date;
 
+import mobile.javan.co.id.presensi.model.adapter.result.StaticResultAdapter;
+
 /**
  * Created by Purwa on 20/03/2015.
  */
@@ -44,33 +46,33 @@ public class Person {
     }
 
 
-    public StaticResponse getStatusKerja(){
-        StaticResponse staticResponse = null;
+    public StaticResultAdapter getStatusKerja(){
+        StaticResultAdapter staticResultAdapter = null;
         if(isKerja()){
-            staticResponse = new StaticResponse();
+            staticResultAdapter = new StaticResultAdapter();
             if(jamMasuk.getHours() >= 8){
-                staticResponse.responseStatus = "Datang Terlambat";
-                staticResponse.status = false;
+                staticResultAdapter.responseStatus = "Datang Terlambat";
+                staticResultAdapter.status = false;
             }else{
-                staticResponse.responseStatus = "Tepat waktu";
-                staticResponse.status = true;
+                staticResultAdapter.responseStatus = "Tepat waktu";
+                staticResultAdapter.status = true;
             }
         }
-        return staticResponse;
+        return staticResultAdapter;
     }
 
-    public StaticResponse getStatusPulang(){
-        StaticResponse staticResponse = null;
+    public StaticResultAdapter getStatusPulang(){
+        StaticResultAdapter staticResultAdapter = null;
         if(isPulang()){
             if(getDurasiKerja() >= 9){
-                staticResponse.responseStatus = "Jam Kerja Cukup";
-                staticResponse.status = true;
+                staticResultAdapter.responseStatus = "Jam Kerja Cukup";
+                staticResultAdapter.status = true;
             }else{
-                staticResponse.responseStatus = "Pulang Cepat";
-                staticResponse.status = false;
+                staticResultAdapter.responseStatus = "Pulang Cepat";
+                staticResultAdapter.status = false;
             }
         }
-        return staticResponse;
+        return staticResultAdapter;
     }
 
 

@@ -1,22 +1,18 @@
-package mobile.javan.co.id.presensi.model;
+package mobile.javan.co.id.presensi.model.adapter.array;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
 import mobile.javan.co.id.presensi.R;
+import mobile.javan.co.id.presensi.model.MenuModel;
 
 /**
  * Created by Purwa on 20/03/2015.

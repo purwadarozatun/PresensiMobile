@@ -1,8 +1,9 @@
-package mobile.javan.co.id.presensi.model;
+package mobile.javan.co.id.presensi.model.adapter.result;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import mobile.javan.co.id.presensi.model.Person;
 import mobile.javan.co.id.presensi.service.ConnectionFragment;
 
 /**

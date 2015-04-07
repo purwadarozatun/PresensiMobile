@@ -78,6 +78,8 @@
     <string name="copyright">"Copyright © 2004-2012 All Rights Reserved.
 3G.cn"</string>
     <string name="title_activity_setting">Setting</string>
+    <string name="drawer_open">Setting</string>
+    <string name="drawer_close">Setting</string>
 
 
 </resources>

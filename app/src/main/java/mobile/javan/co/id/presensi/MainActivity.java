@@ -38,11 +38,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import mobile.javan.co.id.presensi.model.MenuArrayAdapter;
 import mobile.javan.co.id.presensi.model.MenuModel;
 import mobile.javan.co.id.presensi.model.Person;
-import mobile.javan.co.id.presensi.model.PresensiArrayAdapter;
-import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.model.Settings;
+import mobile.javan.co.id.presensi.model.adapter.array.MenuArrayAdapter;
+import mobile.javan.co.id.presensi.model.adapter.array.PresensiArrayAdapter;
+import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
 import mobile.javan.co.id.presensi.service.ConnectionFragment;
 import mobile.javan.co.id.presensi.service.DownloadPresensiData;
 import mobile.javan.co.id.presensi.util.Statics;
@@ -60,6 +61,8 @@ public class MainActivity extends ActionBarActivity {
     private ListView mPresensiListView;
 
     private RelativeLayout mReloadStatus;
+
+    private MainApplication mMainApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,25 +89,10 @@ public class MainActivity extends ActionBarActivity {
         mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         mActionBar.setIcon(R.mipmap.ic_launcher);
         mReloadStatus = (RelativeLayout) findViewById(R.id.reload_status);
+
+        mMainApplication = (MainApplication) getApplication();
+
         selectItem(0);
-    }
-
-    private void setNotification() {
-        //Todo ; Tambah Pengecekan Tanggal Lalu Munculkan NOTIF
-
-
-        String ns = Context.NOTIFICATION_SERVICE;
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-        CharSequence tickerText = "MyApplication";
-        long when = System.currentTimeMillis();
-        Notification notification = new Notification(R.drawable.abc_btn_check_material, tickerText, when);
-        notification.defaults |= Notification.DEFAULT_SOUND|Notification.DEFAULT_VIBRATE|Notification.DEFAULT_LIGHTS;;
-        CharSequence contentTitle = "Testing Notif";
-        CharSequence contentText = "Test";
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        notification.setLatestEventInfo(this, contentTitle, contentText, contentIntent);
-        mNotificationManager.notify(2, notification);
     }
 
     private void getPresensiData() {
@@ -209,13 +197,12 @@ public class MainActivity extends ActionBarActivity {
         if (position == 0) {
             getPresensiData();
         } else if (position == 1) {
-
-            String fileResponse = new Statics().getConfigData(this);
-            if (fileResponse != null) {
-                startWatchActivity(fileResponse.trim());
+            Settings settings = ((MainApplication) getApplication()).getSettings(this);
+            if (settings != null) {
+                startWatchActivity(settings.getWatchNik());
             } else {
-                Toast.makeText(this, "Watch Feature Need Configuration First", Toast.LENGTH_SHORT);
-                selectItem(0);
+                Toast.makeText(this, "Watch Feature Need Configuration First", Toast.LENGTH_SHORT).show();
+                selectItem(2);
             }
         } else if (position == 2) {
             startSettinngActivity();
