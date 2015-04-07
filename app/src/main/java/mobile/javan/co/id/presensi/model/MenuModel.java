@@ -5,9 +5,9 @@ package mobile.javan.co.id.presensi.model;
  */
 public class MenuModel {
     private String menuLabel;
-    private String menuIcon;
+    private int menuIcon;
 
-    public MenuModel(String menuIcon, String menuLabel) {
+    public MenuModel(int menuIcon, String menuLabel) {
         this.menuIcon = menuIcon;
         this.menuLabel = menuLabel;
     }
@@ -20,11 +20,11 @@ public class MenuModel {
         this.menuLabel = menuLabel;
     }
 
-    public String getMenuIcon() {
+    public int getMenuIcon() {
         return menuIcon;
     }
 
-    public void setMenuIcon(String menuIcon) {
+    public void setMenuIcon(int menuIcon) {
         this.menuIcon = menuIcon;
     }
 }

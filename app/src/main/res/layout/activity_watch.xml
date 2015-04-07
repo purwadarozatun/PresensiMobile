@@ -133,13 +133,8 @@
     </RelativeLayout>
 
     <RelativeLayout
-<<<<<<< HEAD
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-=======
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
->>>>>>> 24f974b387af3ee895728d29b9dd58519950084a
         android:layout_gravity="bottom"
         android:background="@color/bg_watch_block">
 

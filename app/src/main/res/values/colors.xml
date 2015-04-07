@@ -41,5 +41,6 @@
     <color name="bg_watch_progress_main">#191919</color>
     <color name="bg_watch_progress">#1AC5F8</color>
     <color name="bg_watch_block">#222222</color>
+    <color name="line_sparator">#cccccc</color>
 
 </resources>

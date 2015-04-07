@@ -75,9 +75,9 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         // Set the adapter for the list view
         List<MenuModel> menuModels = new ArrayList<MenuModel>();
-        menuModels.add(new MenuModel("HOME", "Home"));
-        menuModels.add(new MenuModel("WATCH", "Watch"));
-        menuModels.add(new MenuModel("SETTING", "Setting"));
+        menuModels.add(new MenuModel(R.drawable.home, "Home"));
+        menuModels.add(new MenuModel(R.drawable.clock, "Watch"));
+        menuModels.add(new MenuModel(R.drawable.setting, "Setting"));
 
         MenuArrayAdapter menuArrayAdapter = new MenuArrayAdapter(this, menuModels);
 

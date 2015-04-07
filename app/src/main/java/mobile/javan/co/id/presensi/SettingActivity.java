@@ -55,7 +55,9 @@ public class SettingActivity extends ActionBarActivity {
 
             Settings settings = new Settings();
             settings = ((MainApplication) getApplication()).getSettings(mActivity);
-            settings.setWatchNik(mNikEdit.getText().toString());
+            if(settings == null)
+                settings = new Settings();
+                settings.setWatchNik(mNikEdit.getText().toString());
             new Statics().setConfgData(settings, mActivity);
         }
     }

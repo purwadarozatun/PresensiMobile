@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ public class MenuArrayAdapter extends ArrayAdapter<MenuModel> {
     static class ViewHolder {
         protected LinearLayout layout;
         protected TextView label;
-        protected RelativeLayout icon;
+        protected ImageView icon;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class MenuArrayAdapter extends ArrayAdapter<MenuModel> {
             view = inflater.inflate(R.layout.menu_drawer, null);
             final ViewHolder viewHolder = new ViewHolder();
             viewHolder.label = (TextView) view.findViewById(R.id.menuLabel);
-            viewHolder.icon = (RelativeLayout) view.findViewById(R.id.menuIcon);
+            viewHolder.icon = (ImageView) view.findViewById(R.id.icons);
             view.setTag(viewHolder);
         } else {
             view = convertView;
@@ -52,6 +53,7 @@ public class MenuArrayAdapter extends ArrayAdapter<MenuModel> {
         ViewHolder holder = (ViewHolder) view.getTag();
 //        Log.v("JSON MENU OBJ" , new Gson().toJson(menuModels));
         holder.label.setText(menuModels.get(position).getMenuLabel());
+        holder.icon.setImageResource(menuModels.get(position).getMenuIcon());
 
         return view;
     }
