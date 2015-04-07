@@ -2,23 +2,15 @@ package mobile.javan.co.id.presensi.service;
 
 import android.app.Activity;
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.os.IBinder;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 
-import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
 
 /**
  * Created by Purwa on 01/04/2015.

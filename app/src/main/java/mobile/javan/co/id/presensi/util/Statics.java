@@ -2,35 +2,35 @@ package mobile.javan.co.id.presensi.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 import mobile.javan.co.id.presensi.model.Person;
-import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.model.Settings;
+import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
 
 /**
  * Created by Purwa on 21/03/2015.
  */
 public class Statics {
 
-    public String configfilename = "niksettingfile";
+    public String configfilename = "presensiSettingFile";
 
-    public void setConfgData(String nik, Activity activity) {
+    public void setConfgData(Settings settings, Activity activity) {
         String FILENAME = configfilename;
-        String string = nik;
+        String string = new Gson().toJson(settings);
         try {
 
             PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
-            Person person = presensiResultAdapter.getPersonByNik(nik.trim());
+            Person person = presensiResultAdapter.getPersonByNik(settings.getWatchNik().trim());
             if (person == null) {
                 Toast.makeText(activity, "Cant Save Config File , Nik Not Found In Database", Toast.LENGTH_SHORT).show();
             } else {
@@ -40,6 +40,7 @@ public class Statics {
                 Toast.makeText(activity, "Config Saved!", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             Toast.makeText(activity, "Cant Save Config File", Toast.LENGTH_SHORT).show();
         }
 
@@ -52,17 +53,35 @@ public class Statics {
         try {
             FileInputStream fos = activity.openFileInput(FILENAME);
             fileResponse = new BufferedReader(new InputStreamReader(fos)).readLine();
-
-            PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
-            Person person = presensiResultAdapter.getPersonByNik(fileResponse);
-            if(person == null){
-                return null;
-            }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         return fileResponse;
     }
+
+
+    public Date getDateFrom(String pattern, String input, Date devault) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            return simpleDateFormat.parse(input);
+
+        } catch (Exception ex) {
+            return devault;
+        }
+
+    }
+
+    public String getStringFrom(String pattern, Date input, String devault) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            return simpleDateFormat.format(input);
+
+        } catch (Exception ex) {
+            return devault;
+        }
+
+    }
+
+
 }

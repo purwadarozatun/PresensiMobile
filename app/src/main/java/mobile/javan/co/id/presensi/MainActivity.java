@@ -1,11 +1,22 @@
 package mobile.javan.co.id.presensi;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -27,9 +38,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import mobile.javan.co.id.presensi.model.MenuModel;
 import mobile.javan.co.id.presensi.model.Person;
-import mobile.javan.co.id.presensi.model.PresensiArrayAdapter;
-import mobile.javan.co.id.presensi.model.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.model.Settings;
+import mobile.javan.co.id.presensi.model.adapter.array.MenuArrayAdapter;
+import mobile.javan.co.id.presensi.model.adapter.array.PresensiArrayAdapter;
+import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
 import mobile.javan.co.id.presensi.service.ConnectionFragment;
 import mobile.javan.co.id.presensi.service.DownloadPresensiData;
 import mobile.javan.co.id.presensi.util.Statics;
@@ -48,17 +62,26 @@ public class MainActivity extends ActionBarActivity {
 
     private RelativeLayout mReloadStatus;
 
+    private MainApplication mMainApplication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mActionBar = getSupportActionBar();
         mPlanetTitles = new String[]{"Home", "Watch", "Setting"};
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mPlanetTitles));
+        List<MenuModel> menuModels = new ArrayList<MenuModel>();
+        menuModels.add(new MenuModel("HOME", "Home"));
+        menuModels.add(new MenuModel("WATCH", "Watch"));
+        menuModels.add(new MenuModel("SETTING", "Setting"));
+
+        MenuArrayAdapter menuArrayAdapter = new MenuArrayAdapter(this, menuModels);
+
+        mDrawerList.setAdapter(menuArrayAdapter);
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -66,9 +89,10 @@ public class MainActivity extends ActionBarActivity {
         mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         mActionBar.setIcon(R.mipmap.ic_launcher);
         mReloadStatus = (RelativeLayout) findViewById(R.id.reload_status);
+
+        mMainApplication = (MainApplication) getApplication();
+
         selectItem(0);
-
-
     }
 
     private void getPresensiData() {
@@ -94,6 +118,7 @@ public class MainActivity extends ActionBarActivity {
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
                 String jPerson = bundle.getString(DownloadPresensiData.FILEPATH);
@@ -119,6 +144,7 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
+
 
     @Override
     protected void onResume() {
@@ -171,13 +197,12 @@ public class MainActivity extends ActionBarActivity {
         if (position == 0) {
             getPresensiData();
         } else if (position == 1) {
-
-            String fileResponse = new Statics().getConfigData(this);
-            if (fileResponse != null) {
-                startWatchActivity(fileResponse.trim());
+            Settings settings = ((MainApplication) getApplication()).getSettings(this);
+            if (settings != null) {
+                startWatchActivity(settings.getWatchNik());
             } else {
-                Toast.makeText(this, "Watch Feature Need Configuration First", Toast.LENGTH_SHORT);
-                selectItem(0);
+                Toast.makeText(this, "Watch Feature Need Configuration First", Toast.LENGTH_SHORT).show();
+                selectItem(2);
             }
         } else if (position == 2) {
             startSettinngActivity();
