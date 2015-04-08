@@ -4,9 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".MainApplication"
@@ -25,17 +26,17 @@
         </activity>
         <activity
             android:name=".WatchActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="@string/title_activity_watch"></activity>
+            android:label="@string/title_activity_watch"
+            android:parentActivityName=".MainActivity"></activity>
 
         <service android:name=".service.DownloadPresensiData" />
         <service android:name=".service.WatchService" />
-        <service android:name=".service.WifiStatusService" />
 
+        <receiver android:name=".model.receiver.WifiStatusReceiver" />
         <activity
-            android:parentActivityName=".MainActivity"
             android:name=".SettingActivity"
-            android:label="@string/title_activity_setting"></activity>
+            android:label="@string/title_activity_setting"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

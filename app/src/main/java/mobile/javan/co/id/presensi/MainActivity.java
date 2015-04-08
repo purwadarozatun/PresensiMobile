@@ -50,9 +50,9 @@ import mobile.javan.co.id.presensi.model.Settings;
 import mobile.javan.co.id.presensi.model.adapter.array.MenuArrayAdapter;
 import mobile.javan.co.id.presensi.model.adapter.array.PresensiArrayAdapter;
 import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.model.receiver.WifiStatusReceiver;
 import mobile.javan.co.id.presensi.service.ConnectionFragment;
 import mobile.javan.co.id.presensi.service.DownloadPresensiData;
-import mobile.javan.co.id.presensi.service.WifiStatusService;
 import mobile.javan.co.id.presensi.util.Statics;
 
 
@@ -70,6 +70,8 @@ public class MainActivity extends ActionBarActivity {
     private RelativeLayout mReloadStatus;
 
     private MainApplication mMainApplication;
+    private WifiStatusReceiver wifiStatusReceiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,22 @@ public class MainActivity extends ActionBarActivity {
 
         mMainApplication = (MainApplication) getApplication();
 
+        wifiStatusReceiver = new WifiStatusReceiver();
+
+
+        startRepeatingTimer();
+
         selectItem(0);
+    }
+
+
+    public void startRepeatingTimer() {
+        Context context = this.getApplicationContext();
+        if (wifiStatusReceiver != null) {
+            wifiStatusReceiver.SetAlarm(context, R.mipmap.ic_launcher , this);
+        } else {
+            Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

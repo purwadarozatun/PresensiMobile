@@ -123,7 +123,7 @@ public class ConnectionFragment {
     }
 
 
-    public String getWifiStatus(Activity contex) {
+    public String getWifiStatus(Context contex) {
     /*
         this Prototype to get BSSID ,
         WHY Bissd ?

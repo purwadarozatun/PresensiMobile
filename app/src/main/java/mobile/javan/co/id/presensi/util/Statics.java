@@ -1,7 +1,13 @@
 package mobile.javan.co.id.presensi.util;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -13,6 +19,8 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import mobile.javan.co.id.presensi.MainActivity;
+import mobile.javan.co.id.presensi.R;
 import mobile.javan.co.id.presensi.model.Person;
 import mobile.javan.co.id.presensi.model.Settings;
 import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
@@ -46,7 +54,7 @@ public class Statics {
 
     }
 
-    public String getConfigData(Activity activity) {
+    public String getConfigData(Context activity) {
         String FILENAME = configfilename;
         String fileResponse = null;
 
@@ -80,6 +88,33 @@ public class Statics {
         } catch (Exception ex) {
             return devault;
         }
+
+    }
+
+    public void setNotification(Context context, CharSequence contentTitle, CharSequence contentText, int notifIcon) {
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.abc_btn_check_material)
+                        .setContentTitle(contentTitle)
+                        .setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_VIBRATE|Notification.DEFAULT_LIGHTS)
+                        .setContentText(contentText);
+
+        Intent resultIntent = new Intent(context, MainActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(1, mBuilder.build());
 
     }
 
