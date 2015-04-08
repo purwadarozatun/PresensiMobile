@@ -62,43 +62,47 @@ public class ConnectionFragment {
 
         } catch (ClientProtocolException e) {
 
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
 
         JSONArray jsonArray = null;
         try {
             jsonArray = new JSONArray(str);
         } catch (JSONException e) {
-            e.printStackTrace();
+
         }
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
+        if (jsonArray == null) {
 
-                JSONObject jObject = jsonArray.getJSONObject(i);
-                Person p = new Person(jObject.getString("absensi_nama_lengkap"));
-                if (jObject.has("absensi_pin"))
-                    p.setNik(jObject.getString("absensi_pin"));
-                if (jObject.has("absensi_izin"))
-                    p.setIzin(jObject.getString("absensi_izin"));
-                if (jObject.has("absensi_masuk"))
-                    p.setJamMasuk(new Statics().getDateFrom("hh:mm:ss", jObject.getString("absensi_masuk"), null));
-                if (jObject.has("absensi_keluar"))
-                    p.setJamKeluar(new Statics().getDateFrom("hh:mm:ss", jObject.getString("absensi_keluar"), null));
-                if (jObject.has("duration"))
-                    p.setJamKerja(new Statics().getDateFrom("hh:mm:ss", jObject.getString("duration"), null));
-                if (jObject.has("duration_hour"))
-                    p.setDurasiKerja(jObject.getInt("duration_hour"));
+        } else {
 
-                persons.add(p);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+
+                    JSONObject jObject = jsonArray.getJSONObject(i);
+                    Person p = new Person(jObject.getString("absensi_nama_lengkap"));
+                    if (jObject.has("absensi_pin"))
+                        p.setNik(jObject.getString("absensi_pin"));
+                    if (jObject.has("absensi_izin"))
+                        p.setIzin(jObject.getString("absensi_izin"));
+                    if (jObject.has("absensi_masuk"))
+                        p.setJamMasuk(new Statics().getDateFrom("hh:mm:ss", jObject.getString("absensi_masuk"), null));
+                    if (jObject.has("absensi_keluar"))
+                        p.setJamKeluar(new Statics().getDateFrom("hh:mm:ss", jObject.getString("absensi_keluar"), null));
+                    if (jObject.has("duration"))
+                        p.setJamKerja(new Statics().getDateFrom("hh:mm:ss", jObject.getString("duration"), null));
+                    if (jObject.has("duration_hour"))
+                        p.setDurasiKerja(jObject.getInt("duration_hour"));
+
+                    persons.add(p);
 
 
-            } catch (JSONException e) {
+                } catch (JSONException e) {
 
-            }
-        } // End Loop
+                }
+            } // End Loop
 
+        }
 
         this.presensiResultAdapter = new PresensiResultAdapter(persons);
     }

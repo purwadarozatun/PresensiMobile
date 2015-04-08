@@ -29,6 +29,8 @@
             android:label="@string/title_activity_watch"></activity>
 
         <service android:name=".service.DownloadPresensiData" />
+        <service android:name=".service.WatchService" />
+        <service android:name=".service.WifiStatusService" />
 
         <activity
             android:parentActivityName=".MainActivity"

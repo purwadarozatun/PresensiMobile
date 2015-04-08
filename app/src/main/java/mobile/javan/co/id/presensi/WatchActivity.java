@@ -1,42 +1,73 @@
 package mobile.javan.co.id.presensi;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.LocalDateTime;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import mobile.javan.co.id.presensi.model.Person;
 import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.service.DownloadPresensiData;
+import mobile.javan.co.id.presensi.service.WatchService;
 
 
 public class WatchActivity extends ActionBarActivity {
     private Person mPerson;
-
+    private RelativeLayout mReloadStatus;
+    private String currentUserNik;
+    private Intent mServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch);
+        Intent intent = this.getIntent();
+        currentUserNik = intent.getStringExtra("personNik");
 
 
-        this.setDataToActivity();
+        mServiceIntent = new Intent(this, WatchService.class);
+        mServiceIntent.putExtra("nik", currentUserNik);
+
+        mReloadStatus = (RelativeLayout) findViewById(R.id.reload_status);
+
+        mReloadStatus.setVisibility(View.VISIBLE);
+
+        getData();
+    }
+
+    private void getData() {
+
+        mReloadStatus.setVisibility(View.VISIBLE);
+        startService(mServiceIntent);
     }
 
 
     private void setDataToActivity() {
 
-        Intent intent = this.getIntent();
-        String nik = intent.getStringExtra("personNik");
-        PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
-        mPerson = presensiResultAdapter.getPersonByNik(nik);
-
+        if (mPerson == null) {
+            Toast.makeText(this, "User Not Found !", Toast.LENGTH_SHORT).show();
+        }
         ((TextView) findViewById(R.id.personNik)).setText("" + mPerson.getNik());
         ((TextView) findViewById(R.id.personName)).setText("" + mPerson.getNama());
 
@@ -79,10 +110,49 @@ public class WatchActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
-            setDataToActivity();
+            getData();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                String jPerson = bundle.getString(DownloadPresensiData.FILEPATH);
+                int resultCode = bundle.getInt(DownloadPresensiData.RESULT);
+                if (resultCode == RESULT_OK) {
+                    mPerson = new Gson().fromJson(jPerson, Person.class);
+                    setDataToActivity();
+                } else {
+                    Toast.makeText(context, "Cant Load Data, Please Check Network Connection", Toast.LENGTH_SHORT).show();
+
+                }
+                mReloadStatus.setVisibility(View.GONE);
+            }
+        }
+
+    };
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+        registerReceiver(receiver, new IntentFilter(WatchService.NOTIFICATION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
+
 }

@@ -1,6 +1,7 @@
 package mobile.javan.co.id.presensi;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.Notification;
@@ -16,6 +17,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -35,7 +37,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import mobile.javan.co.id.presensi.model.MenuModel;
@@ -46,6 +52,7 @@ import mobile.javan.co.id.presensi.model.adapter.array.PresensiArrayAdapter;
 import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
 import mobile.javan.co.id.presensi.service.ConnectionFragment;
 import mobile.javan.co.id.presensi.service.DownloadPresensiData;
+import mobile.javan.co.id.presensi.service.WifiStatusService;
 import mobile.javan.co.id.presensi.util.Statics;
 
 
@@ -95,6 +102,7 @@ public class MainActivity extends ActionBarActivity {
         selectItem(0);
     }
 
+
     private void getPresensiData() {
 
         getList();
@@ -112,8 +120,8 @@ public class MainActivity extends ActionBarActivity {
         Intent i = new Intent(this, DownloadPresensiData.class);
         this.startService(i);
 
-    }
 
+    }
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -135,8 +143,7 @@ public class MainActivity extends ActionBarActivity {
 
                     Log.v("Thread Result", jPerson);
                 } else {
-                    mPersons = new ArrayList<Person>();
-                    Log.v("Thread Result", "GAGAl");
+                    Toast.makeText(context, "Cant Load Data, Please Check Network Connection", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -228,12 +235,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void startWatchActivity(String nik) {
-        PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
-        Person person = presensiResultAdapter.getPersonByNik(nik.trim());
-        if (person == null) {
-            selectItem(1);
-        }
-//        Toast.makeText(this, "Watch Activate for user " + nik, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, WatchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("personNik", nik);

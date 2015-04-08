@@ -25,7 +25,6 @@ public class DownloadPresensiData extends IntentService {
     public PresensiResultAdapter PRESENSI_RESULT_ADAPTER = new PresensiResultAdapter();
 
 
-
     public DownloadPresensiData() {
         super("DownloadPresensiData");
     }
@@ -39,33 +38,14 @@ public class DownloadPresensiData extends IntentService {
     // will be called asynchronously by Android
     @Override
     protected void onHandleIntent(Intent intent) {
-        InputStream stream = null;
-        FileOutputStream fos = null;
-        try {
-            ConnectionFragment connectionFragment = new ConnectionFragment();
-            PRESENSI_RESULT_ADAPTER = connectionFragment.getPresensis();
-            // successfully finished
+        ConnectionFragment connectionFragment = new ConnectionFragment();
+        PRESENSI_RESULT_ADAPTER = connectionFragment.getPresensis();
+        // successfully finished
+        if (PRESENSI_RESULT_ADAPTER != null) {
             result = Activity.RESULT_OK;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            publishResults(new Gson().toJson(PRESENSI_RESULT_ADAPTER.getResult()), result);
         }
-        publishResults(new Gson().toJson(PRESENSI_RESULT_ADAPTER.getResult()), result);
+
     }
 
     private void publishResults(String outputPath, int result) {
