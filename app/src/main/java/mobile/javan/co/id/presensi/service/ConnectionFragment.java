@@ -140,6 +140,8 @@ public class ConnectionFragment {
 
             SSID = info.getBSSID();
         }
+        Log.v("JavanSSID" , SSID);
+
         return SSID;
     }
 }
