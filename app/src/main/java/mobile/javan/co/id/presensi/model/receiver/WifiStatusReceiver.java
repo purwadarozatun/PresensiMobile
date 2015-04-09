@@ -7,10 +7,12 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -37,17 +39,18 @@ public class WifiStatusReceiver extends BroadcastReceiver {
 
         String ssid = new ConnectionFragment().getWifiStatus(context);
         Person person = new PresensiResultAdapter().getPersonByNik(currentWatch);
-        LocalDate thisTime = LocalDate.fromDateFields(new Date());
+        LocalDateTime thisTime = LocalDateTime.fromDateFields(new Date());
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.set(Calendar.HOUR, 10);
         cal.set(Calendar.MINUTE, 00);
         cal.set(Calendar.SECOND, 00);
+        cal.set(Calendar.AM_PM , 0);
         cal.set(Calendar.MILLISECOND, 0000);
 
-        LocalDate endTime = LocalDate.fromDateFields(cal.getTime());
+        LocalDateTime endTime = LocalDateTime.fromDateFields(cal.getTime());
         if (thisTime.isAfter(endTime)) {
-            if (person != null && person.getJamKeluar() == null && person.getDurasiKerja() > 9) {
+            if (person != null && person.getJamKeluar() == null && person.getDurasiKerja() >= 9) {
                 new Statics().setNotification(context, "Jam Kerja Anda Telah Cukup", "Silahkan Absen Pulang", notifLogo);
             }
             return;
