@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -32,7 +33,7 @@ public class Statics {
 
     public String configfilename = "presensiSettingFile";
 
-    public void setConfgData(Settings settings, Activity activity) {
+    public void setConfgData(Settings settings, Context activity) {
         String FILENAME = configfilename;
         String string = new Gson().toJson(settings);
         try {
@@ -45,11 +46,34 @@ public class Statics {
                 FileOutputStream fos = activity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
                 fos.write(string.getBytes());
                 fos.close();
+                Log.v("CurrentSetting", "Config Saved");
                 Toast.makeText(activity, "Config Saved!", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
             Toast.makeText(activity, "Cant Save Config File", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    public void setConfgDataNoNotif(Settings settings, Context activity) {
+        String FILENAME = configfilename;
+        String string = new Gson().toJson(settings);
+        try {
+
+            PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
+            Person person = presensiResultAdapter.getPersonByNik(settings.getWatchNik().trim());
+            if (person == null) {
+            } else {
+                FileOutputStream fos = activity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                fos.write(string.getBytes());
+                fos.close();
+                Log.v("CurrentSetting", "Config Saved");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
         }
 
     }
@@ -97,7 +121,7 @@ public class Statics {
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.abc_btn_check_material)
                         .setContentTitle(contentTitle)
-                        .setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_VIBRATE|Notification.DEFAULT_LIGHTS)
+                        .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS)
                         .setContentText(contentText);
 
         Intent resultIntent = new Intent(context, MainActivity.class);

@@ -35,9 +35,13 @@ public class WifiStatusReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        String currentWatch = ((Settings) new Gson().fromJson(new Statics().getConfigData(context), Settings.class)).getWatchNik();
 
         String ssid = new ConnectionFragment().getWifiStatus(context);
+        Settings currentSettings = new Gson().fromJson(new Statics().getConfigData(context), Settings.class);
+
+
+        String currentWatch = currentSettings.getWatchNik();
+
         Person person = new PresensiResultAdapter().getPersonByNik(currentWatch);
         LocalDateTime thisTime = LocalDateTime.fromDateFields(new Date());
         Calendar cal = Calendar.getInstance();
@@ -45,22 +49,47 @@ public class WifiStatusReceiver extends BroadcastReceiver {
         cal.set(Calendar.HOUR, 10);
         cal.set(Calendar.MINUTE, 00);
         cal.set(Calendar.SECOND, 00);
-        cal.set(Calendar.AM_PM , 0);
+        cal.set(Calendar.AM_PM, 0);
         cal.set(Calendar.MILLISECOND, 0000);
 
+
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(new Date());
+        cal1.set(Calendar.HOUR, 8);
+        cal1.set(Calendar.MINUTE, 00);
+        cal1.set(Calendar.SECOND, 00);
+        cal1.set(Calendar.AM_PM, 0);
+        cal1.set(Calendar.MILLISECOND, 0000);
+
         LocalDateTime endTime = LocalDateTime.fromDateFields(cal.getTime());
-        if (thisTime.isAfter(endTime)) {
-            if (person != null && person.getJamKeluar() == null && person.getDurasiKerja() >= 9) {
-                new Statics().setNotification(context, "Jam Kerja Anda Telah Cukup", "Silahkan Absen Pulang", notifLogo);
-            }
+        LocalDateTime jamMasuk = LocalDateTime.fromDateFields(cal.getTime());
+        Log.v("CurrentSetting", new Gson().toJson(currentSettings));
+        if (person == null) {
             return;
         }
-
-        if (person != null && person.getJamMasuk() == null) {
-            if (ssid.equalsIgnoreCase(JAVANSSID)) {
-                new Statics().setNotification(context, "Selamat Datang", "Anda Telah Terkoneksi Ke Javan Labs, Silahkan Absen", notifLogo);
+        if (thisTime.isAfter(jamMasuk)) {
+            if (thisTime.isAfter(endTime) && currentSettings.getIsPulangNotifShow() == false) {
+                currentSettings.setIsDatangNotifShow(false);
+                if (person != null && person.getJamKeluar() == null && person.getDurasiKerja() >= 9) {
+                    new Statics().setNotification(context, "Jam Kerja Anda Telah Cukup", "Silahkan Absen Pulang", notifLogo);
+                    currentSettings.setIsPulangNotifShow(true);
+                }
             }
+            if (thisTime.isBefore(endTime) && currentSettings.getIsDatangNotifShow() == false) {
+                currentSettings.setIsPulangNotifShow(false);
+                if (person != null && person.getJamMasuk() == null) {
+                    if (ssid.equalsIgnoreCase(JAVANSSID)) {
+                        new Statics().setNotification(context, "Selamat Datang", "Anda Telah Terkoneksi Ke Javan Labs, Silahkan Absen", notifLogo);
+                        currentSettings.setIsDatangNotifShow(true);
+                    }
+                }
+            }
+        } else {
+            currentSettings.setIsPulangNotifShow(false);
+            currentSettings.setIsDatangNotifShow(false);
         }
+        new Statics().setConfgDataNoNotif(currentSettings, context);
+
     }
 
     public void SetAlarm(Context context, int notifLogo, Activity mActivity) {
