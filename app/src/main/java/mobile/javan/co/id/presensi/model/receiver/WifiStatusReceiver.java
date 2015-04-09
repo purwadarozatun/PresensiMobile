@@ -55,7 +55,7 @@ public class WifiStatusReceiver extends BroadcastReceiver {
 
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime(new Date());
-        cal1.set(Calendar.HOUR, 8);
+        cal1.set(Calendar.HOUR, 7);
         cal1.set(Calendar.MINUTE, 00);
         cal1.set(Calendar.SECOND, 00);
         cal1.set(Calendar.AM_PM, 0);
