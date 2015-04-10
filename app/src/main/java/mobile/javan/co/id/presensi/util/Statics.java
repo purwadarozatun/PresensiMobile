@@ -119,9 +119,9 @@ public class Statics {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.abc_btn_check_material)
+                        .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(contentTitle)
-                        .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS)
+                        .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL)
                         .setContentText(contentText);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
@@ -130,8 +130,10 @@ public class Statics {
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
+                PendingIntent.getActivity(
+                        context,
                         0,
+                        resultIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
         mBuilder.setContentIntent(resultPendingIntent);
