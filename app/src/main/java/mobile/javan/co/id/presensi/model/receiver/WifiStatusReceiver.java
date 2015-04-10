@@ -37,12 +37,25 @@ public class WifiStatusReceiver extends BroadcastReceiver {
 
 
         String ssid = new ConnectionFragment().getWifiStatus(context);
-        Settings currentSettings = new Gson().fromJson(new Statics().getConfigData(context), Settings.class);
 
+        Settings currentSettings = null;
+        try {
+            currentSettings = new Gson().fromJson(new Statics().getConfigData(context), Settings.class);
+        } catch (Exception ex) {
+            return;
+        }
+
+        if (currentSettings == null || ssid == null) {
+            return;
+        }
 
         String currentWatch = currentSettings.getWatchNik();
 
         Person person = new PresensiResultAdapter().getPersonByNik(currentWatch);
+
+        if (person == null) {
+            return;
+        }
         LocalDateTime thisTime = LocalDateTime.fromDateFields(new Date());
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -64,9 +77,6 @@ public class WifiStatusReceiver extends BroadcastReceiver {
         LocalDateTime endTime = LocalDateTime.fromDateFields(cal.getTime());
         LocalDateTime jamMasuk = LocalDateTime.fromDateFields(cal.getTime());
         Log.v("CurrentSetting", new Gson().toJson(currentSettings));
-        if (person == null) {
-            return;
-        }
         if (thisTime.isAfter(jamMasuk)) {
             if (thisTime.isAfter(endTime) && currentSettings.getIsPulangNotifShow() == false) {
                 currentSettings.setIsDatangNotifShow(false);

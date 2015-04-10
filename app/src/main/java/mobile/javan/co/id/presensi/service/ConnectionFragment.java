@@ -12,6 +12,7 @@ import android.util.Log;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -44,17 +45,23 @@ public class ConnectionFragment {
         this.presensiResultAdapter = presensiResultAdapter;
     }
 
-    public void getPresensiData() {
+    public void getPresensiData(String nik) {
 
         List<Person> persons = new ArrayList<Person>();
         JSONObject json = null;
         String str = "";
         HttpResponse response;
         HttpClient myClient = new DefaultHttpClient();
+
         //2015-03-23T00:17:13.933Z
-        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new Statics().getStringFrom("yyyy-MM-dd", new Date(), null) + "T00:17:13.933Z";
+        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new Statics().getStringFrom("yyyy-MM-dd", new Date(), null);
+        if (!nik.isEmpty()) {
+            url = "http://presensi.javan.co.id/service.php/" + nik + "?&tanggal=" + new Statics().getStringFrom("yyyy-MM-dd", new Date(), null);
+        }
+
+        Log.v("RequestUrl" , url);
 //        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=2015-03-20T00:17:13.933Z";
-        HttpPost myConnection = new HttpPost(url);
+        HttpGet myConnection = new HttpGet(url);
 
         try {
             response = myClient.execute(myConnection);
@@ -118,7 +125,22 @@ public class ConnectionFragment {
             StrictMode.setThreadPolicy(policy);
             //your codes here
         }
-        this.getPresensiData();
+        this.getPresensiData("");
+        return this.getPresensiResultAdapter();
+    }
+
+    public PresensiResultAdapter getPresensis(String nik) {
+
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //your codes here
+        }
+        this.getPresensiData(nik);
         return this.getPresensiResultAdapter();
     }
 
@@ -132,7 +154,7 @@ public class ConnectionFragment {
 
         ConnectivityManager connManager = (ConnectivityManager) contex.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        String SSID = "";
+        String SSID = null;
         if (mWifi.isConnected()) {
             // Do whatever
             WifiManager wifiManager = (WifiManager) contex.getSystemService(Context.WIFI_SERVICE);
@@ -140,7 +162,6 @@ public class ConnectionFragment {
 
             SSID = info.getBSSID();
         }
-        Log.v("JavanSSID" , SSID);
 
         return SSID;
     }

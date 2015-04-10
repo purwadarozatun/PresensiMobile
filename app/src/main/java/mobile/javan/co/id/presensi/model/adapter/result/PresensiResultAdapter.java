@@ -31,15 +31,8 @@ public class PresensiResultAdapter {
     public Person getPersonByNik(String nik) {
         ConnectionFragment connectionFragment = new ConnectionFragment();
 
-        this.result =  connectionFragment.getPresensis().getResult();
-        Person presult = null;
-        for (Person p : result) {
-               if (p.getNik().equals(nik)) {
-                presult = p;
-                break;
-            }
-        }
-        return presult;
+        this.result =  connectionFragment.getPresensis(nik).getResult();
+        return this.result.get(0);
     }
 
     public PresensiResultAdapter(List<Person> result) {

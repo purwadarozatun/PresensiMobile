@@ -41,7 +41,7 @@ public class DownloadPresensiData extends IntentService {
         ConnectionFragment connectionFragment = new ConnectionFragment();
         PRESENSI_RESULT_ADAPTER = connectionFragment.getPresensis();
         // successfully finished
-        if (PRESENSI_RESULT_ADAPTER != null) {
+        if (PRESENSI_RESULT_ADAPTER != null && PRESENSI_RESULT_ADAPTER.getResult().size() > 0) {
             result = Activity.RESULT_OK;
             publishResults(new Gson().toJson(PRESENSI_RESULT_ADAPTER.getResult()), result);
         }
