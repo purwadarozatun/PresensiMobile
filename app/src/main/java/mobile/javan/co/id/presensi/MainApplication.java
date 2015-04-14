@@ -38,9 +38,13 @@ public class MainApplication extends Application {
         return settings;
     }
 
-    public Person getPerson() {
+    public Person getPerson(Activity mActivity) {
+        Settings settingsinstance = this.getSettings(mActivity);
+        if(settingsinstance == null){
+            return null;
+        }
         PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
-        return presensiResultAdapter.getPersonByNik(settings.getWatchNik());
+        return presensiResultAdapter.getPersonByNik(settingsinstance.getWatchNik());
     }
 
 }

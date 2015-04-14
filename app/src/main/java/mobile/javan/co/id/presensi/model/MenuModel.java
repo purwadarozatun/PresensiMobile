@@ -28,3 +28,4 @@ public class MenuModel {
         this.menuIcon = menuIcon;
     }
 }
+

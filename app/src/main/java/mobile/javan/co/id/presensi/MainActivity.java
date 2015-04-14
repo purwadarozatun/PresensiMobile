@@ -24,13 +24,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import mobile.javan.co.id.presensi.model.MenuModel;
 import mobile.javan.co.id.presensi.model.Person;
@@ -77,6 +81,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mActionBar = getSupportActionBar();
         mPlanetTitles = new String[]{"Home", "Watch", "Setting"};
 
@@ -93,7 +98,11 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList.setAdapter(menuArrayAdapter);
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
+        ViewGroup container = mDrawerList;
+        LayoutInflater inflater = getLayoutInflater();
+        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.menu_header, container, false);
+        setMenuHeaderData(relativeLayout);
+        mDrawerList.addHeaderView(relativeLayout);
         //Display App Logo
         mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         mActionBar.setIcon(R.mipmap.ic_launcher);
@@ -106,14 +115,14 @@ public class MainActivity extends ActionBarActivity {
 
         startRepeatingTimer();
 
-        selectItem(0);
+        selectItem(1);
     }
 
 
     public void startRepeatingTimer() {
         Context context = this.getApplicationContext();
         if (wifiStatusReceiver != null) {
-            wifiStatusReceiver.SetAlarm(context, R.mipmap.ic_launcher , this);
+            wifiStatusReceiver.SetAlarm(context, R.mipmap.ic_launcher, this);
         } else {
             Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
         }
@@ -152,13 +161,13 @@ public class MainActivity extends ActionBarActivity {
                     Type listType = new TypeToken<List<Person>>() {
                     }.getType();
                     mPersons = new Gson().fromJson(jPerson, listType);
-
-                    setAdapter();
-                    mPresensiListView = (ListView) findViewById(R.id.list_presensi);
-                    mPresensiListView.setAdapter(mAdapter);
-                    mPresensiListView.setOnItemClickListener(new PresensiListOnClickListener());
-
-                    Log.v("Thread Result", jPerson);
+                    if (mPersons != null) {
+                        setAdapter();
+                        mPresensiListView = (ListView) findViewById(R.id.list_presensi);
+                        mPresensiListView.setAdapter(mAdapter);
+                        mPresensiListView.setOnItemClickListener(new PresensiListOnClickListener());
+                        Log.v("Thread Result", jPerson);
+                    }
                 } else {
                     Toast.makeText(context, "Cant Load Data, Please Check Network Connection", Toast.LENGTH_SHORT).show();
 
@@ -208,7 +217,7 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
-            selectItem(0);
+            selectItem(1);
         }
 
         return super.onOptionsItemSelected(item);
@@ -218,17 +227,17 @@ public class MainActivity extends ActionBarActivity {
      * Swaps fragments in the main content view
      */
     private void selectItem(int position) {
-        if (position == 0) {
+        if (position == 1) {
             getPresensiData();
-        } else if (position == 1) {
+        } else if (position == 2) {
             Settings settings = ((MainApplication) getApplication()).getSettings(this);
             if (settings != null) {
                 startWatchActivity(settings.getWatchNik());
             } else {
                 Toast.makeText(this, "Watch Feature Need Configuration First", Toast.LENGTH_SHORT).show();
-                selectItem(2);
+                selectItem(3);
             }
-        } else if (position == 2) {
+        } else if (position == 3) {
             startSettinngActivity();
         }
         mDrawerList.setItemChecked(position, true);
@@ -264,4 +273,17 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    private void setMenuHeaderData(RelativeLayout relativeLayout){
+        TextView logedName = (TextView) relativeLayout.findViewById(R.id.logedName);
+        TextView logedNik = (TextView) relativeLayout.findViewById(R.id.logedNik);
+        Person person = ((MainApplication) getApplication()).getPerson(this);
+        logedName.setVisibility(View.GONE);
+        logedNik.setVisibility(View.GONE);
+        if (person != null) {
+            logedName.setVisibility(View.VISIBLE);
+            logedNik.setVisibility(View.VISIBLE);
+            logedName.setText(person.getNama());
+            logedNik.setText(person.getNik());
+        }
+    }
 }

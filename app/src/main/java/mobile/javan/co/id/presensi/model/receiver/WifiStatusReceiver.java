@@ -75,7 +75,7 @@ public class WifiStatusReceiver extends BroadcastReceiver {
         cal1.set(Calendar.MILLISECOND, 0000);
 
         LocalDateTime endTime = LocalDateTime.fromDateFields(cal.getTime());
-        LocalDateTime jamMasuk = LocalDateTime.fromDateFields(cal.getTime());
+        LocalDateTime jamMasuk = LocalDateTime.fromDateFields(cal1.getTime());
         Log.v("CurrentSetting", new Gson().toJson(currentSettings));
         if (thisTime.isAfter(jamMasuk)) {
             if (thisTime.isAfter(endTime) && currentSettings.getIsPulangNotifShow() == false) {
