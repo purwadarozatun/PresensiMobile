@@ -37,11 +37,11 @@ public class Statics {
         String FILENAME = configfilename;
         String string = new Gson().toJson(settings);
         try {
-
             PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
-            Person person = presensiResultAdapter.getPersonByNik(settings.getWatchNik().trim());
+            Person person = presensiResultAdapter.getPersonByNik(settings.getWatchNik().trim() , new Date());
             if (person == null) {
                 Toast.makeText(activity, "Cant Save Config File , Nik Not Found In Database", Toast.LENGTH_SHORT).show();
+                return;
             } else {
                 FileOutputStream fos = activity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
                 fos.write(string.getBytes());
@@ -49,6 +49,7 @@ public class Statics {
                 Log.v("CurrentSetting", "Config Saved");
                 Toast.makeText(activity, "Config Saved!", Toast.LENGTH_SHORT).show();
             }
+
         } catch (Exception ex) {
             ex.printStackTrace();
             Toast.makeText(activity, "Cant Save Config File", Toast.LENGTH_SHORT).show();
@@ -63,7 +64,7 @@ public class Statics {
         try {
 
             PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
-            Person person = presensiResultAdapter.getPersonByNik(settings.getWatchNik().trim());
+            Person person = presensiResultAdapter.getPersonByNik(settings.getWatchNik().trim() , new Date());
             if (person == null) {
             } else {
                 FileOutputStream fos = activity.openFileOutput(FILENAME, Context.MODE_PRIVATE);
@@ -115,7 +116,7 @@ public class Statics {
 
     }
 
-    public void setNotification(Context context, CharSequence contentTitle, CharSequence contentText, int notifIcon) {
+    public void setNotification(Context context, CharSequence contentTitle, CharSequence contentText) {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
@@ -123,6 +124,7 @@ public class Statics {
                         .setContentTitle(contentTitle)
                         .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL)
                         .setContentText(contentText);
+        mBuilder.setAutoCancel(true);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
 

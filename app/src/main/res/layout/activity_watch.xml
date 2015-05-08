@@ -1,9 +1,9 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:circleview="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/bg_watch_block">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -23,10 +23,10 @@
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="@dimen/twenty_dp"
-                android:minHeight="@dimen/twenty_dp"
                 android:layout_centerInParent="true"
                 android:indeterminate="true"
+                android:minHeight="@dimen/twenty_dp"
+                android:minWidth="@dimen/twenty_dp"
                 android:scrollbarStyle="insideOverlay" />
         </RelativeLayout>
 
@@ -118,19 +118,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/iv_halocircle_solid"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="fill_parent"-->
-                <!--android:background="@drawable/dark_green_halo_solid"-->
-                <!--android:contentDescription="@string/content_description" />-->
-
-                <!--<ImageView-->
-                <!--android:id="@+id/iv_halocircle"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="fill_parent"-->
-                <!--android:contentDescription="@string/content_description" />-->
-
                 <ProgressBar
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
@@ -175,22 +162,100 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:padding="5dp"
-                    android:text="Medium Text"
+
+                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/bg_watch_progress"
                     android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/personNik"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="-2dp"
-                    android:padding="5dp"
-                    android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/bg_watch_progress"
-                    android:textSize="14sp" />
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_marginTop="-2dp"
+                            android:padding="5dp"
+                            android:text="NIK"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/bg_watch_progress"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/personNik"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_marginTop="-2dp"
+                            android:padding="5dp"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/bg_watch_progress"
+                            android:textSize="14sp" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_marginTop="-2dp"
+                            android:padding="5dp"
+                            android:text="Jam Masuk"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/bg_watch_progress"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/jam_masuk"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_marginTop="-2dp"
+                            android:padding="5dp"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/bg_watch_progress"
+                            android:textSize="14sp" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:text="Jam Pulang"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_marginTop="-2dp"
+                            android:padding="5dp"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/bg_watch_progress"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:id="@+id/jam_pulang"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_marginTop="-2dp"
+                            android:padding="5dp"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/bg_watch_progress"
+                            android:textSize="14sp" />
+
+                    </TableRow>
+                </TableLayout>
+
 
             </LinearLayout>
 

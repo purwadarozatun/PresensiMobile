@@ -29,10 +29,13 @@
                     android:id="@+id/nik"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_column="1" />
+                    android:layout_column="1"
+                    android:inputType="numberSigned"
+                    android:ems="10"/>
             </TableRow>
 
         </TableLayout>
+
 
         <Button
             android:id="@+id/buttonSettingSave"

@@ -34,6 +34,7 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
 
     static class ViewHolder {
         protected LinearLayout layout;
+        protected LinearLayout imageView;
         protected TextView nama;
         protected TextView status;
         protected TextView nik;
@@ -41,6 +42,7 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
         protected TextView jamKerja;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = null;
@@ -54,6 +56,7 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
             viewHolder.status = (TextView) view.findViewById(R.id.status);
             viewHolder.jamMasuk = (TextView) view.findViewById(R.id.jam_masuk);
             viewHolder.layout = (LinearLayout) view.findViewById(R.id.mainlayout);
+            viewHolder.imageView = (LinearLayout) view.findViewById(R.id.statusPulangHolder);
             view.setTag(viewHolder);
         } else {
             view = convertView;
@@ -61,6 +64,9 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.nama.setText(persons.get(position).getNama());
         holder.nik.setText(persons.get(position).getNik());
+
+        holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.statusfilter));
+
         if (persons.get(position).getJamMasuk() != null) {
             holder.jamKerja.setText("" + persons.get(position).getDurasiKerja());
             holder.jamMasuk.setText("Jam Masuk : " + new Statics().getStringFrom("hh:mm:ss", persons.get(position).getJamMasuk(), "00:00:00"));
@@ -69,18 +75,36 @@ public class PresensiArrayAdapter extends ArrayAdapter<Person> {
             holder.jamKerja.setText("-");
             holder.jamMasuk.setVisibility(View.GONE);
         }
-        StaticResultAdapter staticResultAdapter = persons.get(position).getStatusKerja();
+
+        StaticResultAdapter statusKerja = persons.get(position).getStatusKerja();
         holder.layout.setBackgroundColor(Color.argb(50, 255, 255, 255));
         holder.status.setText("");
-
-        if (staticResultAdapter != null) {
-            if (staticResultAdapter.status == true) {
+        String statusString = "";
+        if (statusKerja != null) {
+            if (statusKerja.status == true) {
                 holder.layout.setBackgroundColor(Color.argb(50, 86, 232, 151));
             } else {
                 holder.layout.setBackgroundColor(Color.argb(50, 255, 96, 74));
             }
-            holder.status.setText(staticResultAdapter.responseStatus);
+            statusString = statusKerja.getResponseStatus();
         }
+        StaticResultAdapter statusPulang = persons.get(position).getStatusPulang();
+
+        if (null != statusPulang) {
+            if (statusPulang.status == true) {
+                holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.jam_kerja_cukup));
+            } else {
+                holder.imageView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.pulang_cepat));
+            }
+            if (!statusString.isEmpty()) {
+                statusString += " , " + statusPulang.getResponseStatus();
+            }
+        }
+
+        if (!statusString.isEmpty()) {
+            holder.status.setText(statusString);
+        }
+
         if (persons.get(position).getIzin() != "" && !persons.get(position).getIzin().equals("null")) {
             holder.layout.setBackgroundColor(Color.argb(100, 130, 218, 232));
             holder.status.setText(persons.get(position).getIzin());

@@ -11,7 +11,7 @@ public class StaticResultAdapter {
     public Boolean status;
 
     public String getResponseStatus() {
-        return responseStatus = "";
+        return responseStatus;
     }
 
     public Boolean getStatus() {

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Paint;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ import mobile.javan.co.id.presensi.model.Person;
 import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
 import mobile.javan.co.id.presensi.service.DownloadPresensiData;
 import mobile.javan.co.id.presensi.service.WatchService;
+import mobile.javan.co.id.presensi.util.Statics;
 
 
 public class WatchActivity extends ActionBarActivity {
@@ -37,6 +39,7 @@ public class WatchActivity extends ActionBarActivity {
     private RelativeLayout mReloadStatus;
     private String currentUserNik;
     private Intent mServiceIntent;
+    private Date currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class WatchActivity extends ActionBarActivity {
 
         mServiceIntent = new Intent(this, WatchService.class);
         mServiceIntent.putExtra("nik", currentUserNik);
+        mServiceIntent.putExtra("tanggal", (Long) intent.getExtras().get("tanggal"));
 
         mReloadStatus = (RelativeLayout) findViewById(R.id.reload_status);
 
@@ -68,8 +72,14 @@ public class WatchActivity extends ActionBarActivity {
         if (mPerson == null) {
             Toast.makeText(this, "User Not Found !", Toast.LENGTH_SHORT).show();
         }
+        TextView personName = (TextView) findViewById(R.id.personName);
+        personName.setPaintFlags(personName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+
         ((TextView) findViewById(R.id.personNik)).setText("" + mPerson.getNik());
-        ((TextView) findViewById(R.id.personName)).setText("" + mPerson.getNama());
+        (personName).setText("" + mPerson.getNama());
+        ((TextView) findViewById(R.id.jam_masuk)).setText("" + new Statics().getStringFrom("hh:mm:ss", mPerson.getJamMasuk(), "-"));
+        ((TextView) findViewById(R.id.jam_pulang)).setText("" + new Statics().getStringFrom("hh:mm:ss", mPerson.getJamKeluar(), "-"));
 
         Double persentasiJamkerja = 0D;
         Double jumlahJamKerja = 540D;
@@ -139,7 +149,6 @@ public class WatchActivity extends ActionBarActivity {
         }
 
     };
-
 
 
     @Override

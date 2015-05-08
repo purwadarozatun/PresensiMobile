@@ -1,6 +1,7 @@
 package mobile.javan.co.id.presensi.model.adapter.result;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import mobile.javan.co.id.presensi.model.Person;
@@ -28,11 +29,14 @@ public class PresensiResultAdapter {
     public PresensiResultAdapter() {
     }
 
-    public Person getPersonByNik(String nik) {
+    public Person getPersonByNik(String nik , Date tanggal) {
         ConnectionFragment connectionFragment = new ConnectionFragment();
 
-        this.result =  connectionFragment.getPresensis(nik).getResult();
-        return this.result.get(0);
+        this.result = connectionFragment.getPresensis(nik , tanggal).getResult();
+        if (this.result.size() >= 1) {
+            return this.result.get(0);
+        }
+        return null;
     }
 
     public PresensiResultAdapter(List<Person> result) {

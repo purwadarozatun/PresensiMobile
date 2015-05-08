@@ -45,8 +45,7 @@ public class ConnectionFragment {
         this.presensiResultAdapter = presensiResultAdapter;
     }
 
-    public void getPresensiData(String nik) {
-
+    public void getPresensiData(String nik, Date tanggal) {
         List<Person> persons = new ArrayList<Person>();
         JSONObject json = null;
         String str = "";
@@ -54,12 +53,16 @@ public class ConnectionFragment {
         HttpClient myClient = new DefaultHttpClient();
 
         //2015-03-23T00:17:13.933Z
-        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=" + new Statics().getStringFrom("yyyy-MM-dd", new Date(), null);
+        String url = "http://presensi.javan.co.id/service.php/";
         if (!nik.isEmpty()) {
-            url = "http://presensi.javan.co.id/service.php/" + nik + "?&tanggal=" + new Statics().getStringFrom("yyyy-MM-dd", new Date(), null);
+            url = url + nik;
         }
-
-        Log.v("RequestUrl" , url);
+        url += "?";
+        if (tanggal != null) {
+            url = url + "&tanggal=" + new Statics().getStringFrom("yyyy-MM-dd", tanggal, null);
+        }
+        url = url + "&orderby=masuk";
+        Log.v("RequestUrl", url);
 //        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=2015-03-20T00:17:13.933Z";
         HttpGet myConnection = new HttpGet(url);
 
@@ -114,7 +117,7 @@ public class ConnectionFragment {
         this.presensiResultAdapter = new PresensiResultAdapter(persons);
     }
 
-    public PresensiResultAdapter getPresensis() {
+    public PresensiResultAdapter getPresensis(Date tanggal) {
 
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8)
@@ -125,11 +128,11 @@ public class ConnectionFragment {
             StrictMode.setThreadPolicy(policy);
             //your codes here
         }
-        this.getPresensiData("");
+        this.getPresensiData("", tanggal);
         return this.getPresensiResultAdapter();
     }
 
-    public PresensiResultAdapter getPresensis(String nik) {
+    public PresensiResultAdapter getPresensis(String nik, Date tanggal) {
 
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8)
@@ -140,7 +143,7 @@ public class ConnectionFragment {
             StrictMode.setThreadPolicy(policy);
             //your codes here
         }
-        this.getPresensiData(nik);
+        this.getPresensiData(nik, tanggal);
         return this.getPresensiResultAdapter();
     }
 

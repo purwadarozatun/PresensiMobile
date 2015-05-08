@@ -9,24 +9,33 @@
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true">
 
-        <RelativeLayout
-            android:id="@+id/reload_status"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:background="@color/refresh_loader"
-            android:visibility="gone"
-            android:padding="@dimen/five_dp">
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"  android:layout_centerInParent="true"/>
-        </RelativeLayout>
+            android:layout_height="fill_parent">
 
-        <ListView
-            android:id="@+id/list_presensi"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <RelativeLayout
+                android:id="@+id/reload_status"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:background="@color/refresh_loader"
+                android:orientation="horizontal"
+                android:padding="@dimen/five_dp"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true" />
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/list_presensi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
 
     </FrameLayout>
 

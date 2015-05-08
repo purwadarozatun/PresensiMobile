@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.util.Date;
+
 import mobile.javan.co.id.presensi.model.Person;
 import mobile.javan.co.id.presensi.model.Settings;
 import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
@@ -22,6 +24,8 @@ public class MainApplication extends Application {
     private Settings settings; //Data Setting di set global
 
     private Person person; //Ceritanya Active Person , Jadi Data Active Person Di simpan di global
+
+    private Date currentDate;
 
     public MainApplication() {
     }
@@ -40,11 +44,20 @@ public class MainApplication extends Application {
 
     public Person getPerson(Activity mActivity) {
         Settings settingsinstance = this.getSettings(mActivity);
-        if(settingsinstance == null){
+        if (settingsinstance == null) {
             return null;
         }
         PresensiResultAdapter presensiResultAdapter = new PresensiResultAdapter();
-        return presensiResultAdapter.getPersonByNik(settingsinstance.getWatchNik());
+        return presensiResultAdapter.getPersonByNik(settingsinstance.getWatchNik(), new Date());
     }
 
+    public Date getCurrentDate() {
+        if (currentDate == null)
+            currentDate = new Date();
+        return currentDate;
+    }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
+    }
 }

@@ -3,14 +3,17 @@ package mobile.javan.co.id.presensi.service;
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import mobile.javan.co.id.presensi.model.adapter.result.PresensiResultAdapter;
+import mobile.javan.co.id.presensi.util.Statics;
 
 /**
  * Created by Purwa on 01/04/2015.
@@ -39,13 +42,18 @@ public class DownloadPresensiData extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         ConnectionFragment connectionFragment = new ConnectionFragment();
-        PRESENSI_RESULT_ADAPTER = connectionFragment.getPresensis();
+        Date tanggal;
+        if(intent.getExtras().get("tanggal") != null){
+            tanggal = new Date(intent.getExtras().getLong("tanggal", -1));
+        }else{
+            tanggal = new Date();
+        }
+        PRESENSI_RESULT_ADAPTER = connectionFragment.getPresensis(tanggal);
         // successfully finished
         if (PRESENSI_RESULT_ADAPTER != null && PRESENSI_RESULT_ADAPTER.getResult().size() > 0) {
             result = Activity.RESULT_OK;
-            publishResults(new Gson().toJson(PRESENSI_RESULT_ADAPTER.getResult()), result);
         }
-
+        publishResults(new Gson().toJson(PRESENSI_RESULT_ADAPTER.getResult()), result);
     }
 
     private void publishResults(String outputPath, int result) {

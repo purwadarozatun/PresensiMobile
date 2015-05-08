@@ -1,8 +1,15 @@
 package mobile.javan.co.id.presensi.model;
 
+import android.util.Log;
+
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+
+import java.util.Calendar;
 import java.util.Date;
 
 import mobile.javan.co.id.presensi.model.adapter.result.StaticResultAdapter;
+import mobile.javan.co.id.presensi.util.Statics;
 
 /**
  * Created by Purwa on 20/03/2015.
@@ -32,28 +39,34 @@ public class Person {
     }
 
     private Boolean isKerja() {
-        if (jamMasuk!=null){
+        if (jamMasuk != null) {
             return true;
         }
         return false;
     }
 
     private Boolean isPulang() {
-        if (jamKeluar!=null){
+        if (jamKeluar != null) {
             return true;
         }
         return false;
     }
 
 
-    public StaticResultAdapter getStatusKerja(){
+    public StaticResultAdapter getStatusKerja() {
         StaticResultAdapter staticResultAdapter = null;
-        if(isKerja()){
+
+        if (isKerja()) {
+
             staticResultAdapter = new StaticResultAdapter();
-            if(jamMasuk.getHours() >= 8){
+            Integer jam = Integer.parseInt(new Statics().getStringFrom("H", jamMasuk, "0"));
+            if (jam == 0) {
+                jam = 12;
+            }
+            if (jam >= 8) {
                 staticResultAdapter.responseStatus = "Datang Terlambat";
                 staticResultAdapter.status = false;
-            }else{
+            } else {
                 staticResultAdapter.responseStatus = "Tepat waktu";
                 staticResultAdapter.status = true;
             }
@@ -61,23 +74,20 @@ public class Person {
         return staticResultAdapter;
     }
 
-    public StaticResultAdapter getStatusPulang(){
+    public StaticResultAdapter getStatusPulang() {
         StaticResultAdapter staticResultAdapter = null;
-        if(isPulang()){
-            if(getDurasiKerja() >= 9){
+        if (isPulang()) {
+            staticResultAdapter = new StaticResultAdapter();
+            if (getDurasiKerja() >= 9) {
                 staticResultAdapter.responseStatus = "Jam Kerja Cukup";
                 staticResultAdapter.status = true;
-            }else{
+            } else {
                 staticResultAdapter.responseStatus = "Pulang Cepat";
                 staticResultAdapter.status = false;
             }
         }
         return staticResultAdapter;
     }
-
-
-
-
 
 
     public Person(String nama) {
@@ -99,6 +109,7 @@ public class Person {
     public void setNik(String nik) {
         this.nik = nik;
     }
+
     public Integer getDurasiKerja() {
         return durasiKerja;
     }

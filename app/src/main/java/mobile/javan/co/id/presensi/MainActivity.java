@@ -1,24 +1,12 @@
 package mobile.javan.co.id.presensi;
 
-import android.annotation.TargetApi;
-import android.app.AlarmManager;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Build;
-import android.os.PowerManager;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -31,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -76,6 +66,8 @@ public class MainActivity extends ActionBarActivity {
     private MainApplication mMainApplication;
     private WifiStatusReceiver wifiStatusReceiver;
 
+    private Date selectedDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +76,7 @@ public class MainActivity extends ActionBarActivity {
 
         mActionBar = getSupportActionBar();
         mPlanetTitles = new String[]{"Home", "Watch", "Setting"};
+        mPresensiListView = (ListView) findViewById(R.id.list_presensi);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -122,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
     public void startRepeatingTimer() {
         Context context = this.getApplicationContext();
         if (wifiStatusReceiver != null) {
-            wifiStatusReceiver.SetAlarm(context, R.mipmap.ic_launcher, this);
+            wifiStatusReceiver.SetAlarm(context);
         } else {
             Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
         }
@@ -144,6 +137,7 @@ public class MainActivity extends ActionBarActivity {
         Log.v("Thread Result", "Start");
         mReloadStatus.setVisibility(View.VISIBLE);
         Intent i = new Intent(this, DownloadPresensiData.class);
+        i.putExtra("tanggal", mMainApplication.getCurrentDate().getTime());
         this.startService(i);
 
 
@@ -158,15 +152,20 @@ public class MainActivity extends ActionBarActivity {
                 String jPerson = bundle.getString(DownloadPresensiData.FILEPATH);
                 int resultCode = bundle.getInt(DownloadPresensiData.RESULT);
                 if (resultCode == RESULT_OK) {
-                    Type listType = new TypeToken<List<Person>>() {
-                    }.getType();
-                    mPersons = new Gson().fromJson(jPerson, listType);
-                    if (mPersons != null) {
-                        setAdapter();
-                        mPresensiListView = (ListView) findViewById(R.id.list_presensi);
-                        mPresensiListView.setAdapter(mAdapter);
-                        mPresensiListView.setOnItemClickListener(new PresensiListOnClickListener());
-                        Log.v("Thread Result", jPerson);
+                    try {
+                        Type listType = new TypeToken<List<Person>>() {
+                        }.getType();
+                        mPersons = new Gson().fromJson(jPerson, listType);
+                        if (mPersons != null) {
+                            setAdapter();
+                            mPresensiListView.setAdapter(mAdapter);
+                            mPresensiListView.setOnItemClickListener(new PresensiListOnClickListener());
+                            Log.v("Thread Result", jPerson);
+                        } else {
+                            Toast.makeText(context, "Cant Load Data, Please Check Network Connection", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception ex) {
+
                     }
                 } else {
                     Toast.makeText(context, "Cant Load Data, Please Check Network Connection", Toast.LENGTH_SHORT).show();
@@ -219,20 +218,23 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.refresh) {
             selectItem(1);
         }
-
+        if (id == R.id.pickDate) {
+            showDatePickerDialog();
+        }
         return super.onOptionsItemSelected(item);
     }
 
     /**
      * Swaps fragments in the main content view
      */
+
     private void selectItem(int position) {
         if (position == 1) {
             getPresensiData();
         } else if (position == 2) {
             Settings settings = ((MainApplication) getApplication()).getSettings(this);
             if (settings != null) {
-                startWatchActivity(settings.getWatchNik());
+                startWatchActivity(settings.getWatchNik() , new Date());
             } else {
                 Toast.makeText(this, "Watch Feature Need Configuration First", Toast.LENGTH_SHORT).show();
                 selectItem(3);
@@ -256,14 +258,15 @@ public class MainActivity extends ActionBarActivity {
     private class PresensiListOnClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            startWatchActivity(mPersons.get(position).getNik());
+            startWatchActivity(mPersons.get(position).getNik() , mMainApplication.getCurrentDate());
         }
     }
 
-    private void startWatchActivity(String nik) {
+    private void startWatchActivity(String nik , Date tanggal) {
         Intent intent = new Intent(this, WatchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("personNik", nik);
+        intent.putExtra("tanggal", tanggal.getTime());
         startActivity(intent);
     }
 
@@ -273,17 +276,57 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    private void setMenuHeaderData(RelativeLayout relativeLayout){
+    private void setMenuHeaderData(RelativeLayout relativeLayout) {
         TextView logedName = (TextView) relativeLayout.findViewById(R.id.logedName);
         TextView logedNik = (TextView) relativeLayout.findViewById(R.id.logedNik);
+        ImageView imgLoader = (ImageView) relativeLayout.findViewById(R.id.imageView);
         Person person = ((MainApplication) getApplication()).getPerson(this);
         logedName.setVisibility(View.GONE);
+        imgLoader.setVisibility(View.GONE);
         logedNik.setVisibility(View.GONE);
-        if (person != null) {
-            logedName.setVisibility(View.VISIBLE);
-            logedNik.setVisibility(View.VISIBLE);
-            logedName.setText(person.getNama());
-            logedNik.setText(person.getNik());
+//        if (person != null) {
+//            logedName.setVisibility(View.VISIBLE);
+//            imgLoader.setVisibility(View.VISIBLE);
+//            logedNik.setVisibility(View.VISIBLE);
+//            logedName.setText(person.getNama());
+//            logedNik.setText(person.getNik());
+//        }
+    }
+
+    public void showDatePickerDialog() {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            MainApplication myApplication = (MainApplication) getActivity().getApplication();
+
+            c.setTime(myApplication.getCurrentDate());
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            MainApplication myApplication = (MainApplication) getActivity().getApplication();
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DATE, day);
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month);
+            myApplication.setCurrentDate(cal.getTime());
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.getList();
+            // Do something with the date chosen by the user
         }
     }
+
 }
