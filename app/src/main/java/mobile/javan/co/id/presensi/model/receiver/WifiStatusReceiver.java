@@ -98,7 +98,6 @@ public class WifiStatusReceiver extends BroadcastReceiver {
         if (thisTime.isAfter(isStartJamMasuk) && thisTime.isBefore(isEndJamMasuk) && currentSettings.getIsDatangNotifShow() == false) {
 
             person = presensiResultAdapter.getPersonByNik(currentWatch , new Date());
-            Log.v("SCHEDULEACT" , "MASUK");
             if (person == null) {
                 return;
             }
@@ -116,7 +115,6 @@ public class WifiStatusReceiver extends BroadcastReceiver {
             if (person == null) {
                 return;
             }
-            Log.v("SCHEDULEACT" , "PULANG");
             currentSettings.setIsDatangNotifShow(false);
             if (person != null && person.getJamKeluar() == null && person.getDurasiKerja() >= 9) {
                 new Statics().setNotification(context, "Presensi Javan", "Jam Kerja Anda Sudah Cukup Silahkan Absen Pulang");

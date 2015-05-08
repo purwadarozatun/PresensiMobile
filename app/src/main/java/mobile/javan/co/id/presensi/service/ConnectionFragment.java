@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.StrictMode;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -62,7 +61,6 @@ public class ConnectionFragment {
             url = url + "&tanggal=" + new Statics().getStringFrom("yyyy-MM-dd", tanggal, null);
         }
         url = url + "&orderby=masuk";
-        Log.v("RequestUrl", url);
 //        String url = "http://presensi.javan.co.id/list.php?orderby=masuk&tanggal=2015-03-20T00:17:13.933Z";
         HttpGet myConnection = new HttpGet(url);
 
