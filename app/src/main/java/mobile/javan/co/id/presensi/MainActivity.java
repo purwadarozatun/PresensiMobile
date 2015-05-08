@@ -88,7 +88,6 @@ public class MainActivity extends ActionBarActivity {
 
         MenuArrayAdapter menuArrayAdapter = new MenuArrayAdapter(this, menuModels);
 
-        mDrawerList.setAdapter(menuArrayAdapter);
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         ViewGroup container = mDrawerList;
@@ -96,6 +95,7 @@ public class MainActivity extends ActionBarActivity {
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.menu_header, container, false);
         setMenuHeaderData(relativeLayout);
         mDrawerList.addHeaderView(relativeLayout);
+        mDrawerList.setAdapter(menuArrayAdapter);
         //Display App Logo
         mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
         mActionBar.setIcon(R.mipmap.ic_launcher);
